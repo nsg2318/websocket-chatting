@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 const message_entity_1 = require("./entities/message.entity");
 let MessagesService = class MessagesService {
     constructor() {
-        this.messages = [{ name: 'New Chat', text: '채팅방이 생성되었습니다.', time: Date.now(), }];
+        this.messages = [{ name: 'SYSTEM', text: '<<채팅방이 생성되었습니다.>>', time: Date.now(), }];
         this.clientToUser = {};
     }
     identify(name, clientId) {
@@ -28,7 +28,6 @@ let MessagesService = class MessagesService {
         return message;
     }
     findAll() {
-        console.log(this.messages);
         return this.messages;
     }
 };

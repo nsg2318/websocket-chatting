@@ -6,7 +6,7 @@ import { Message } from './entities/message.entity';
 @Injectable()
 export class MessagesService {
 
-  messages: Message[] = [{name: 'New Chat', text: '채팅방이 생성되었습니다.', time: Date.now(),}];
+  messages: Message[] = [{name: 'SYSTEM', text: '<<채팅방이 생성되었습니다.>>', time: Date.now(),}];
 
   clientToUser = {};
 
@@ -28,7 +28,8 @@ export class MessagesService {
   }
 
   findAll() {
-    console.log(this.messages);
     return this.messages;
   }
+
+  
 }

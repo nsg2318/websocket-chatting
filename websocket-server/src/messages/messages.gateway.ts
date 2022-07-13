@@ -2,7 +2,6 @@ import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, Conne
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { Server, Socket } from 'socket.io';
-import { emit } from 'process';
 
 @WebSocketGateway({cors: {
 	origin: '*',
@@ -21,7 +20,6 @@ export class MessagesGateway {
     @ConnectedSocket() client: Socket,
     ) {
     const message = await this.messagesService.create(createMessageDto,client.id);
-
     this.server.emit('message', message);
     return message;
   }
@@ -47,4 +45,5 @@ export class MessagesGateway {
     const name = await this.messagesService.getClientName(client.id);
     client.broadcast.emit('typing', {name, isTyping});
   }
+
 }

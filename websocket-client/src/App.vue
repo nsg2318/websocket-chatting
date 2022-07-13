@@ -7,6 +7,8 @@
   const joined = ref(false);
   const name = ref('');
   const typingDisplay = ref('');
+  const joinedRoom = ref(false);
+  const roomCode = ref('');
   
   onBeforeMount( () => {
     socket.emit('findAllMessages',{},response => {
@@ -54,23 +56,32 @@
     <div v-if="!joined">
       <form @submit.prevent="join">
         <label>enter your nickname</label><br>
-        <input v-model="name"/>
+        <input v-model="name"/><br>
+        <label>enter your room code</label><br>
+        <input v-model="roomCode"/>
         <button type="submit">제출</button>
       </form>
     </div>
     <div class="chat-container" v-else>
-      <div class="messages-container">
-        <div v-for="message in messages">
-          [{{message.time}}][{{message.name}}] : {{message.text}}
+      <div v-if="!joinedRoom">
+        <div class="rooms-container">
+          <!-- find room -->
         </div>
       </div>
-      <div v-if="typingDisplay">{{ typingDisplay }}</div>
-      <div class="message-input">
-        <form @submit.prevent="sendMessage">
-          <label>Msg : </label>
-          <input v-model="messageText" @input="emitTyping"/> <br>
-          <button type="submit">전송</button>
-        </form>
+      <div v-else>
+        <div class="messages-container">
+          <div v-for="message in messages">
+            [{{message.time}}][{{message.name}}] : {{message.text}}
+          </div>
+        </div>
+        <div v-if="typingDisplay">{{ typingDisplay }}</div>
+        <div class="message-input">
+          <form @submit.prevent="sendMessage">
+            <label>Msg : </label>
+            <input v-model="messageText" @input="emitTyping"/> <br>
+            <button type="submit">전송</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
