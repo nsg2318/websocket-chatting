@@ -9,6 +9,6 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   username: 'sunba',
   password: 'sunba',
   database: 'websocket',
-  entities: [Message, Room,],
+  entities: [Room,],
   synchronize: true,
 };
