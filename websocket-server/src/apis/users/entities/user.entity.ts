@@ -6,7 +6,7 @@ export class User extends BaseEntity {
   id: number;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
-  created_at: Date;
+  createdDate: Date;
 
   name: string;
 }
