@@ -1,7 +1,9 @@
 <script setup>
   import { io } from 'socket.io-client';
   import { onBeforeMount, ref } from 'vue';
+  import { axios } from 'axios';
   const socket = io('http://localhost:3001');
+  const apiUrl = 'http://localhost:3001';
   const messages = ref([]);
   const messageText = ref('');
   const joined = ref(false);
