@@ -1,16 +1,15 @@
 <script setup>
   import { io } from 'socket.io-client';
   import { onBeforeMount, ref } from 'vue';
-  import { axios } from 'axios';
-  const socket = io('http://localhost:3001');
+  import axios from 'axios';
   const apiUrl = 'http://localhost:3001';
+  const socket = io(apiUrl);
   const messages = ref([]);
   const messageText = ref('');
   const joined = ref(false);
   const name = ref('');
   const typingDisplay = ref('');
-  const joinedRoom = ref(false);
-  const roomCode = ref('');
+  const room = ref('');
   
   onBeforeMount( () => {
     socket.emit('findAllMessages',{},response => {
@@ -36,11 +35,12 @@
       messageText.value ='';
     })
   }
-
   const join = () => {
-    socket.emit('join', { name: name.value }, () => {
-      joined.value = true;
-    });
+    axios.post(`${apiUrl}/join`, {
+      name: name.value
+    }).then((response) => {
+      joined.value = true; 
+    }).catch((error) => console.log(error));
   }
 
   let timeout;
@@ -56,16 +56,19 @@
 <template>
   <div class="chat">
     <div v-if="!joined">
-      <form @submit.prevent="join">
-        <label>enter your nickname</label><br>
-        <input v-model="name"/><br>
-        <label>enter your room code</label><br>
-        <input v-model="roomCode"/>
+      <div class="greetings">
+        <h1 class="green">OJT WebSocket</h1>
+        <form @submit.prevent="join">
+        <h3 class="white">닉네임을 입력하세요.</h3>
+        <input v-model="name"/><br><br>
+        <h3 class="white">Room 코드를 입력하세요.</h3>
+        <input v-model="room"/><br>
         <button type="submit">제출</button>
-      </form>
+        </form>
+      </div>
     </div>
     <div class="chat-container" v-else>
-      <div v-if="!joinedRoom">
+      <div v-if="!joined">
         <div class="rooms-container">
           <!-- find room -->
         </div>
@@ -79,7 +82,6 @@
         <div v-if="typingDisplay">{{ typingDisplay }}</div>
         <div class="message-input">
           <form @submit.prevent="sendMessage">
-            <label>Msg : </label>
             <input v-model="messageText" @input="emitTyping"/> <br>
             <button type="submit">전송</button>
           </form>
@@ -105,6 +107,31 @@
 
 .messages-container{
   flex: 1;
+}
+
+input {
+  width: 200px;
+  height: 32px;
+  font-size: 15px;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 10px;
+  background-color: rgb(233, 233, 233);
+}
+
+button {
+  margin: 15px 0px 10px;
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 10px 10px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
 }
 </style>
 
