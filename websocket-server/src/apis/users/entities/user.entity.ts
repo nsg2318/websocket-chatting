@@ -1,5 +1,6 @@
-import { BaseEntity, CreateDateColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class User extends BaseEntity {
 
   @PrimaryGeneratedColumn()
@@ -8,5 +9,6 @@ export class User extends BaseEntity {
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
   createdDate: Date;
 
+  @Column()
   name: string;
 }

@@ -1,3 +1,5 @@
 import { Message } from "../entities/message.entity";
-export declare class CreateMessageDto extends Message {
+declare const CreateMessageDto_base: import("@nestjs/mapped-types").MappedType<Pick<Message, "name" | "text">>;
+export declare class CreateMessageDto extends CreateMessageDto_base {
 }
+export {};

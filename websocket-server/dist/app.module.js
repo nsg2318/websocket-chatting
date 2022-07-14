@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const users_module_1 = require("./apis/users/users.module");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const typeorm_config_1 = require("./configs/typeorm.config");
@@ -18,7 +19,7 @@ let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [messages_module_1.MessagesModule, rooms_module_1.RoomsModule, typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig)],
+        imports: [messages_module_1.MessagesModule, rooms_module_1.RoomsModule, users_module_1.UserModule, typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig)],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

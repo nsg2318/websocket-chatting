@@ -9,25 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessagesGateway = void 0;
-const websockets_1 = require("@nestjs/websockets");
-const messages_service_1 = require("./messages.service");
-const socket_io_1 = require("socket.io");
-let MessagesGateway = class MessagesGateway {
-    constructor(messagesService) {
-        this.messagesService = messagesService;
-    }
+exports.User = void 0;
+const typeorm_1 = require("typeorm");
+let User = class User extends typeorm_1.BaseEntity {
 };
 __decorate([
-    (0, websockets_1.WebSocketServer)(),
-    __metadata("design:type", socket_io_1.Server)
-], MessagesGateway.prototype, "server", void 0);
-MessagesGateway = __decorate([
-    (0, websockets_1.WebSocketGateway)({ cors: {
-            origin: '*',
-        },
-    }),
-    __metadata("design:paramtypes", [messages_service_1.MessagesService])
-], MessagesGateway);
-exports.MessagesGateway = MessagesGateway;
-//# sourceMappingURL=messages.gateway.js.map
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], User.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" }),
+    __metadata("design:type", Date)
+], User.prototype, "createdDate", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "name", void 0);
+User = __decorate([
+    (0, typeorm_1.Entity)()
+], User);
+exports.User = User;
+//# sourceMappingURL=user.entity.js.map

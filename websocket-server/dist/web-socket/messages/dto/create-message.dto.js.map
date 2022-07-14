@@ -1,1 +1,1 @@
-{"version":3,"file":"create-message.dto.js","sourceRoot":"","sources":["../../../../src/web-socket/messages/dto/create-message.dto.ts"],"names":[],"mappings":";;;AAAA,+DAAqD;AAErD,MAAa,gBAAiB,SAAQ,wBAAO;CAAE;AAA/C,4CAA+C"}
+{"version":3,"file":"create-message.dto.js","sourceRoot":"","sources":["../../../../src/web-socket/messages/dto/create-message.dto.ts"],"names":[],"mappings":";;;AAAA,uDAAgD;AAChD,+DAAqD;AAErD,MAAa,gBAAiB,SAAQ,IAAA,uBAAQ,EAAC,wBAAO,EAAC,CAAC,MAAM,EAAC,MAAM,CAAC,CAAC;CACnE;AADJ,4CACI"}

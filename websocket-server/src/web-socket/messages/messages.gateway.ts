@@ -14,36 +14,36 @@ export class MessagesGateway {
   constructor(private readonly messagesService: MessagesService) {}
 
   //message 전송
-  @SubscribeMessage('createMessage')
-  async create(
-    @MessageBody() createMessageDto: CreateMessageDto,
-    @ConnectedSocket() client: Socket,
-    ) {
-    const message = await this.messagesService.create(createMessageDto,client.id);
-    this.server.emit('message', message);
-    return message;
-  }
+  // @SubscribeMessage('createMessage')
+  // async create(
+  //   @MessageBody() createMessageDto: CreateMessageDto,
+  //   @ConnectedSocket() client: Socket,
+  //   ) {
+  //   const message = await this.messagesService.create(createMessageDto,client.id);
+  //   this.server.emit('message', message);
+  //   return message;
+  // }
 
-  //모든 message 불러오기
-  @SubscribeMessage('findAllMessages')
-  findAll() {
-    return this.messagesService.findAll();
-  }
+  // //모든 message 불러오기
+  // @SubscribeMessage('findAllMessages')
+  // findAll() {
+  //   return this.messagesService.findAll();
+  // }
 
-  //room 입장
-  @SubscribeMessage('join')
-  joinRoom(@MessageBody('name') name: string, @ConnectedSocket() client: Socket) {
-    return this.messagesService.identify(name, client.id);
-  }
+  // //room 입장
+  // @SubscribeMessage('join')
+  // joinRoom(@MessageBody('name') name: string, @ConnectedSocket() client: Socket) {
+  //   return this.messagesService.identify(name, client.id);
+  // }
 
-  //typing 
-  @SubscribeMessage('typing')
-  async typing(
-    @MessageBody('isTyping') isTyping: boolean,
-    @ConnectedSocket() client: Socket,
-  ) {
-    const name = await this.messagesService.getClientName(client.id);
-    client.broadcast.emit('typing', {name, isTyping});
-  }
+  // //typing 
+  // @SubscribeMessage('typing')
+  // async typing(
+  //   @MessageBody('isTyping') isTyping: boolean,
+  //   @ConnectedSocket() client: Socket,
+  // ) {
+  //   const name = await this.messagesService.getClientName(client.id);
+  //   client.broadcast.emit('typing', {name, isTyping});
+  // }
 
 }

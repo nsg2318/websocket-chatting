@@ -1,1 +1,1 @@
-{"version":3,"file":"room.entity.js","sourceRoot":"","sources":["../../../../src/web-socket/rooms/entities/room.entity.ts"],"names":[],"mappings":";;;AAAA,qCAAqC;AAErC,MAAa,IAAK,SAAQ,oBAAU;CAEnC;AAFD,oBAEC"}
+{"version":3,"file":"room.entity.js","sourceRoot":"","sources":["../../../../src/web-socket/rooms/entities/room.entity.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,qCAA6D;AAE7D,MAAa,IAAK,SAAQ,oBAAU;CAMnC;AAHC;IADC,IAAA,gCAAsB,GAAE;;gCACd;AAHb,oBAMC"}

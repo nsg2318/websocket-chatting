@@ -8,28 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessagesService = void 0;
 const common_1 = require("@nestjs/common");
-const message_entity_1 = require("./entities/message.entity");
 let MessagesService = class MessagesService {
-    constructor() {
-        this.messages = [{ name: 'SYSTEM', text: '<<채팅방이 생성되었습니다.>>', time: Date.now(), }];
-        this.clientToUser = {};
-    }
-    identify(name, clientId) {
-        this.clientToUser[clientId] = name;
-        return Object.values(this.clientToUser);
-    }
-    getClientName(clientId) {
-        return this.clientToUser[clientId];
-    }
-    create(createMessageDto, clientId) {
-        const name = this.clientToUser[clientId];
-        const message = new message_entity_1.Message(createMessageDto, name);
-        this.messages.push(message);
-        return message;
-    }
-    findAll() {
-        return this.messages;
-    }
 };
 MessagesService = __decorate([
     (0, common_1.Injectable)()

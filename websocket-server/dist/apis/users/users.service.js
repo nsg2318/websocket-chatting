@@ -9,25 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessagesGateway = void 0;
-const websockets_1 = require("@nestjs/websockets");
-const messages_service_1 = require("./messages.service");
-const socket_io_1 = require("socket.io");
-let MessagesGateway = class MessagesGateway {
-    constructor(messagesService) {
-        this.messagesService = messagesService;
+exports.UserService = void 0;
+const common_1 = require("@nestjs/common");
+const users_repository_1 = require("./users.repository");
+let UserService = class UserService {
+    constructor(userRepository) {
+        this.userRepository = userRepository;
+    }
+    async create(name) {
+        if (!name) {
+            throw new common_1.UnauthorizedException('닉네임을 입력해주세요.');
+        }
+        this.userRepository.join(name);
     }
 };
-__decorate([
-    (0, websockets_1.WebSocketServer)(),
-    __metadata("design:type", socket_io_1.Server)
-], MessagesGateway.prototype, "server", void 0);
-MessagesGateway = __decorate([
-    (0, websockets_1.WebSocketGateway)({ cors: {
-            origin: '*',
-        },
-    }),
-    __metadata("design:paramtypes", [messages_service_1.MessagesService])
-], MessagesGateway);
-exports.MessagesGateway = MessagesGateway;
-//# sourceMappingURL=messages.gateway.js.map
+UserService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [users_repository_1.UserRepository])
+], UserService);
+exports.UserService = UserService;
+//# sourceMappingURL=users.service.js.map
