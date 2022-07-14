@@ -24,11 +24,11 @@ export class MessagesGateway {
   //   return message;
   // }
 
-  // //모든 message 불러오기
-  // @SubscribeMessage('findAllMessages')
-  // findAll() {
-  //   return this.messagesService.findAll();
-  // }
+  //모든 message 불러오기
+  @SubscribeMessage('findAllMessages')
+  findAllByRoom(@MessageBody('room') room: string) {
+    return this.messagesService.findAllByRoom(room);
+  }
 
   // //room 입장
   // @SubscribeMessage('join')

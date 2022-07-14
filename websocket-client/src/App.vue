@@ -12,7 +12,7 @@
   const room = ref('');
   
   onBeforeMount( () => {
-    socket.emit('findAllMessages',{},response => {
+    socket.emit('findAllMessages',{room: room.value},response => {
       messages.value = response;
     }); 
 

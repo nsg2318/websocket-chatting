@@ -1,6 +1,7 @@
-import { BaseEntity, Column, CreateDateColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { CreateMessageDto } from "../dto/create-message.dto";
 
+@Entity()
 export class Message extends BaseEntity{
 
   @PrimaryGeneratedColumn()
@@ -12,4 +13,6 @@ export class Message extends BaseEntity{
   name: string;
   @Column()
   text: string;
+  @Column()
+  room: string;
 }

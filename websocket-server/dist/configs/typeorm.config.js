@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeORMConfig = void 0;
 const user_entity_1 = require("../apis/users/entities/user.entity");
+const message_entity_1 = require("../web-socket/messages/entities/message.entity");
 const room_entity_1 = require("../web-socket/rooms/entities/room.entity");
 exports.typeORMConfig = {
     type: 'mysql',
@@ -10,7 +11,7 @@ exports.typeORMConfig = {
     username: 'sunba',
     password: 'sunba',
     database: 'websocket',
-    entities: [room_entity_1.Room, user_entity_1.User],
+    entities: [room_entity_1.Room, user_entity_1.User, message_entity_1.Message],
     synchronize: true,
 };
 //# sourceMappingURL=typeorm.config.js.map

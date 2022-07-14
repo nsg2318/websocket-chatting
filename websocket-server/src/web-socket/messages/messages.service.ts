@@ -1,10 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { Message } from './entities/message.entity';
+import { MessageRepository } from './meesages.repository';
 
 
 @Injectable()
 export class MessagesService {
+
+  constructor(
+    private readonly messageRepository: MessageRepository
+  ){}
+
+  async findAllByRoom(room: string) {
+    return await this.messageRepository.findAllByRoom(room);
+  }
 
   // messages: Message[] = [{name: 'SYSTEM', text: '<<채팅방이 생성되었습니다.>>', time: Date.now(),}];
 

@@ -10,11 +10,15 @@ exports.MessagesModule = void 0;
 const common_1 = require("@nestjs/common");
 const messages_service_1 = require("./messages.service");
 const messages_gateway_1 = require("./messages.gateway");
+const meesages_repository_1 = require("./meesages.repository");
+const typeorm_1 = require("@nestjs/typeorm");
+const message_entity_1 = require("./entities/message.entity");
 let MessagesModule = class MessagesModule {
 };
 MessagesModule = __decorate([
     (0, common_1.Module)({
-        providers: [messages_gateway_1.MessagesGateway, messages_service_1.MessagesService]
+        imports: [typeorm_1.TypeOrmModule.forFeature([message_entity_1.Message])],
+        providers: [messages_gateway_1.MessagesGateway, messages_service_1.MessagesService, meesages_repository_1.MessageRepository,]
     })
 ], MessagesModule);
 exports.MessagesModule = MessagesModule;

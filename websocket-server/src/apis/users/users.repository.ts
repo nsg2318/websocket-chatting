@@ -12,7 +12,7 @@ export class UserRepository {
 
   async join(name: string): Promise<User>{
     const user: User = this.userRepository.create({name});
-
+  
     return await this.userRepository.save(user);
 
   }

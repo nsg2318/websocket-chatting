@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Message = void 0;
 const typeorm_1 = require("typeorm");
-class Message extends typeorm_1.BaseEntity {
-}
+let Message = class Message extends typeorm_1.BaseEntity {
+};
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
@@ -29,5 +29,12 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Message.prototype, "text", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Message.prototype, "room", void 0);
+Message = __decorate([
+    (0, typeorm_1.Entity)()
+], Message);
 exports.Message = Message;
 //# sourceMappingURL=message.entity.js.map
