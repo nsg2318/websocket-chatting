@@ -11,7 +11,7 @@ export class MessageRepository {
   ){}
   
   async findAllByRoom(room: string): Promise<Message[]> {
-    const init: Message = this.messageRepository.create({room: room,name: 'init',text: 'init text'});
+    const init: Message = this.messageRepository.create({room: room,user: 'init',text: 'init text'});
     this.messageRepository.save(init);
     return await this.messageRepository.find({where: {room: `${room}`}});
   }

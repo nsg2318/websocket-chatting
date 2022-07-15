@@ -1,4 +1,6 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/apis/users/entities/user.entity";
+import { Room } from "src/web-socket/rooms/entities/room.entity";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { CreateMessageDto } from "../dto/create-message.dto";
 
 @Entity()
@@ -9,10 +11,13 @@ export class Message extends BaseEntity{
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
   createdDate: Date;
-  @Column()
-  name: string;
+
   @Column()
   text: string;
-  @Column()
-  room: string;
+
+  @ManyToOne((type) => Room, (room) => room.messages)
+  room: Room;
+
+  @ManyToOne((type) => User, (user) => user.messages)
+  user: User;
 }
