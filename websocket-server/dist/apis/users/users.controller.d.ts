@@ -1,6 +1,6 @@
 import { UserService } from "./users.service";
-export declare class UserController {
+export declare class UsersController {
     private readonly userService;
     constructor(userService: UserService);
-    join(name: string): Promise<void>;
+    join(userName: string): Promise<void>;
 }

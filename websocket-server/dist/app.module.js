@@ -14,7 +14,7 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const typeorm_config_1 = require("./configs/typeorm.config");
 const messages_module_1 = require("./web-socket/messages/messages.module");
-const rooms_module_1 = require("./web-socket/rooms/rooms.module");
+const rooms_module_1 = require("./apis/rooms/rooms.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([

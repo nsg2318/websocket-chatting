@@ -2,17 +2,24 @@
   import { io } from 'socket.io-client';
   import { onBeforeMount, ref } from 'vue';
   import axios from 'axios';
+  
+  //connection
   const apiUrl = 'http://localhost:3001';
   const socket = io(apiUrl);
+  
+  //messaging
   const messages = ref([]);
   const messageText = ref('');
-  const joined = ref(false);
-  const name = ref('');
-  const typingDisplay = ref('');
-  const room = ref('');
   
+  //user & room 
+  const joined = ref(false);
+  const userName = ref('');
+  const roomName = ref('');
+  
+  //etc
+  const typingDisplay = ref('');
   onBeforeMount( () => {
-    socket.emit('findAllMessages',{room: room.value},response => {
+    socket.emit('findAllMessages',{roomName: roomName.value},response => {
       messages.value = response;
     }); 
 
@@ -35,11 +42,19 @@
       messageText.value ='';
     })
   }
-  const join = () => {
-    axios.post(`${apiUrl}/join`, {
-      name: name.value
+  const user = () => {
+    axios.post(`${apiUrl}/user`, {
+      userName: userName.value
     }).then((response) => {
       joined.value = true; 
+    }).catch((error) => console.log(error));
+  }
+
+  const room = () => {
+    axios.post(`${apiUrl}/room`, {
+      roomName: roomName.value
+    }).then((response) => {
+      user();
     }).catch((error) => console.log(error));
   }
 
@@ -58,13 +73,15 @@
     <div v-if="!joined">
       <div class="greetings">
         <h1 class="green">OJT WebSocket</h1>
-        <form @submit.prevent="join">
+        <form @submit.prevent="room">
         <h3 class="white">닉네임을 입력하세요.</h3>
-        <input v-model="name"/><br><br>
+        <input v-model="userName"/><br><br>
         <h3 class="white">Room 코드를 입력하세요.</h3>
-        <input v-model="room"/><br>
+        <input v-model="roomName"/><br>
         <button type="submit">제출</button>
         </form>
+        
+        
       </div>
     </div>
     <div class="chat-container" v-else>

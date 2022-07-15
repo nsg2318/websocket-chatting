@@ -1,6 +1,7 @@
 import { Message } from "src/web-socket/messages/entities/message.entity";
-import { BaseEntity, CreateDateColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class Room extends BaseEntity{
 
   @PrimaryGeneratedColumn()
@@ -9,6 +10,7 @@ export class Room extends BaseEntity{
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
   createdDate: Date;
   
+  @Column()
   name: string;
 
   @OneToMany((type) => Message, (message) => message.room)

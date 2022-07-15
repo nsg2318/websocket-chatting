@@ -1,5 +1,5 @@
 import { User } from "src/apis/users/entities/user.entity";
-import { Room } from "src/web-socket/rooms/entities/room.entity";
+import { Room } from "src/apis/rooms/entities/room.entity";
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { CreateMessageDto } from "../dto/create-message.dto";
 

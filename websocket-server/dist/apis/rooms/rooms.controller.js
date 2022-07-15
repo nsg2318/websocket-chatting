@@ -12,23 +12,27 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageRepository = void 0;
+exports.RoomsController = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
-const message_entity_1 = require("./entities/message.entity");
-let MessageRepository = class MessageRepository {
-    constructor(messageRepository) {
-        this.messageRepository = messageRepository;
+const rooms_service_1 = require("./rooms.service");
+let RoomsController = class RoomsController {
+    constructor(roomsService) {
+        this.roomsService = roomsService;
     }
-    async findAllByRoom(room) {
-        return await this.messageRepository.find({ where: { room: `${room}` } });
+    async findOrCraeteRooms(roomName) {
+        await this.roomsService.joinRoom(roomName);
     }
 };
-MessageRepository = __decorate([
-    (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(message_entity_1.Message)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
-], MessageRepository);
-exports.MessageRepository = MessageRepository;
-//# sourceMappingURL=meesages.repository.js.map
+__decorate([
+    (0, common_1.Post)('room'),
+    __param(0, (0, common_1.Body)('roomName')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], RoomsController.prototype, "findOrCraeteRooms", null);
+RoomsController = __decorate([
+    (0, common_1.Controller)(),
+    __metadata("design:paramtypes", [rooms_service_1.RoomsService])
+], RoomsController);
+exports.RoomsController = RoomsController;
+//# sourceMappingURL=rooms.controller.js.map

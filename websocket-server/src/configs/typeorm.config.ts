@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { User } from "src/apis/users/entities/user.entity";
 import { Message } from "src/web-socket/messages/entities/message.entity";
-import { Room } from "src/web-socket/rooms/entities/room.entity";
+import { Room } from "src/apis/rooms/entities/room.entity";
 
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'mysql',

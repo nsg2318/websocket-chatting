@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { typeORMConfig } from './configs/typeorm.config';
 import { MessagesModule } from './web-socket/messages/messages.module';
-import { RoomsModule } from './web-socket/rooms/rooms.module';
+import { RoomsModule } from './apis/rooms/rooms.module';
 
 @Module({
   imports: [MessagesModule, RoomsModule,UserModule, TypeOrmModule.forRoot(typeORMConfig)],

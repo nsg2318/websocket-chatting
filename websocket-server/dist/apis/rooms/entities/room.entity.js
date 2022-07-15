@@ -9,34 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Message = void 0;
-const user_entity_1 = require("../../../apis/users/entities/user.entity");
-const room_entity_1 = require("../../../apis/rooms/entities/room.entity");
+exports.Room = void 0;
+const message_entity_1 = require("../../../web-socket/messages/entities/message.entity");
 const typeorm_1 = require("typeorm");
-let Message = class Message extends typeorm_1.BaseEntity {
+let Room = class Room extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], Message.prototype, "id", void 0);
+    __metadata("design:type", String)
+], Room.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" }),
     __metadata("design:type", Date)
-], Message.prototype, "createdDate", void 0);
+], Room.prototype, "createdDate", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Message.prototype, "text", void 0);
+], Room.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => room_entity_1.Room, (room) => room.messages),
-    __metadata("design:type", room_entity_1.Room)
-], Message.prototype, "room", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.messages),
-    __metadata("design:type", user_entity_1.User)
-], Message.prototype, "user", void 0);
-Message = __decorate([
+    (0, typeorm_1.OneToMany)((type) => message_entity_1.Message, (message) => message.room),
+    __metadata("design:type", Array)
+], Room.prototype, "messages", void 0);
+Room = __decorate([
     (0, typeorm_1.Entity)()
-], Message);
-exports.Message = Message;
-//# sourceMappingURL=message.entity.js.map
+], Room);
+exports.Room = Room;
+//# sourceMappingURL=room.entity.js.map
