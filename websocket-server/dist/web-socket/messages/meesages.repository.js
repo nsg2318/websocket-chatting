@@ -21,8 +21,11 @@ let MessageRepository = class MessageRepository {
     constructor(messageRepository) {
         this.messageRepository = messageRepository;
     }
-    async findAllByRoom(room) {
-        return await this.messageRepository.find({ where: { room: `${room}` } });
+    async findAllByRoom(roomId) {
+        console.log(`room : ${roomId}`);
+        const result = await this.messageRepository.find({ where: { room: `${roomId}` } });
+        console.log(result[0]);
+        return result;
     }
 };
 MessageRepository = __decorate([

@@ -12,13 +12,12 @@ export class RoomsRepository{
     ){}
     
     async createIfNotExists(name: string) {
-        const findRoom = await this.roomRepository.find({where: {name: name}});
+        const findRoom = await this.roomRepository.findOne({where: {name: name}});
         console.log(`findRoom : ${findRoom}`);
-        if(findRoom.length == 0){
+        if(!findRoom){
             const saveRoom: Room =this.roomRepository.create({name});
             return this.roomRepository.save(saveRoom);
         } else {
-            console.log('엘스');
             return findRoom;
         }
     }

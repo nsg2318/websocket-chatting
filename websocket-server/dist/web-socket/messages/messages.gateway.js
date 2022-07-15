@@ -20,8 +20,8 @@ let MessagesGateway = class MessagesGateway {
     constructor(messagesService) {
         this.messagesService = messagesService;
     }
-    findAllByRoom(room) {
-        return this.messagesService.findAllByRoom(room);
+    findAllByRoom(roomId) {
+        return this.messagesService.findAllByRoom(roomId);
     }
 };
 __decorate([
@@ -29,10 +29,10 @@ __decorate([
     __metadata("design:type", socket_io_1.Server)
 ], MessagesGateway.prototype, "server", void 0);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('findAllMessages'),
-    __param(0, (0, websockets_1.MessageBody)('room')),
+    (0, websockets_1.SubscribeMessage)('findAllMessageByRoomId'),
+    __param(0, (0, websockets_1.MessageBody)('roomId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], MessagesGateway.prototype, "findAllByRoom", null);
 MessagesGateway = __decorate([

@@ -11,8 +11,8 @@ export class MessagesService {
     private readonly messageRepository: MessageRepository
   ){}
 
-  async findAllByRoom(room: string) {
-    return await this.messageRepository.findAllByRoom(room);
+  async findAllByRoom(roomId: number) {
+    return await this.messageRepository.findAllByRoom(roomId);
   }
 
   // messages: Message[] = [{name: 'SYSTEM', text: '<<채팅방이 생성되었습니다.>>', time: Date.now(),}];

@@ -10,7 +10,10 @@ export class MessageRepository {
     private messageRepository: Repository<Message>,
   ){}
   
-  async findAllByRoom(room: string): Promise<Message[]> {
-    return await this.messageRepository.find({where: {room: `${room}`}});
+  async findAllByRoom(roomId: number): Promise<Message[]> {
+    console.log(`room : ${roomId}`);
+    const result = await this.messageRepository.find({where: {room: `${roomId}`}});
+    console.log(result[0]);
+    return result;
   }
 }

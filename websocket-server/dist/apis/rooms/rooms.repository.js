@@ -22,14 +22,13 @@ let RoomsRepository = class RoomsRepository {
         this.roomRepository = roomRepository;
     }
     async createIfNotExists(name) {
-        const findRoom = await this.roomRepository.find({ where: { name: name } });
+        const findRoom = await this.roomRepository.findOne({ where: { name: name } });
         console.log(`findRoom : ${findRoom}`);
-        if (findRoom.length == 0) {
+        if (!findRoom) {
             const saveRoom = this.roomRepository.create({ name });
             return this.roomRepository.save(saveRoom);
         }
         else {
-            console.log('엘스');
             return findRoom;
         }
     }

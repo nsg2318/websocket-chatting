@@ -16,8 +16,8 @@ let MessagesService = class MessagesService {
     constructor(messageRepository) {
         this.messageRepository = messageRepository;
     }
-    async findAllByRoom(room) {
-        return await this.messageRepository.findAllByRoom(room);
+    async findAllByRoom(roomId) {
+        return await this.messageRepository.findAllByRoom(roomId);
     }
 };
 MessagesService = __decorate([

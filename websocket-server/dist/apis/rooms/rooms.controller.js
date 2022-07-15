@@ -20,7 +20,7 @@ let RoomsController = class RoomsController {
         this.roomsService = roomsService;
     }
     async findOrCraeteRooms(roomName) {
-        await this.roomsService.joinRoom(roomName);
+        return await this.roomsService.joinRoom(roomName);
     }
 };
 __decorate([

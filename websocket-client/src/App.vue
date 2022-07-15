@@ -15,13 +15,11 @@
   const joined = ref(false);
   const userName = ref('');
   const roomName = ref('');
+  const roomId = ref('');
   
   //etc
   const typingDisplay = ref('');
   onBeforeMount( () => {
-    socket.emit('findAllMessages',{roomName: roomName.value},response => {
-      messages.value = response;
-    }); 
 
     socket.on('message', (message) => {
     messages.value.push(message);
@@ -36,6 +34,12 @@
   });
   })
 
+  const findMessageByRoom = () => {
+    console.log(roomId.value);
+    socket.emit('findAllMessageByRoomId',{roomId: roomId.value},response => {
+      messages.value = response;
+    });
+  }
   //Method
   const sendMessage = () => {
     socket.emit('createMessage',{ text: messageText.value }, response => {
@@ -45,8 +49,9 @@
   const user = () => {
     axios.post(`${apiUrl}/user`, {
       userName: userName.value
-    }).then((response) => {
-      joined.value = true; 
+    }).then(() => {
+      joined.value = true;
+      findMessageByRoom();
     }).catch((error) => console.log(error));
   }
 
@@ -54,6 +59,7 @@
     axios.post(`${apiUrl}/room`, {
       roomName: roomName.value
     }).then((response) => {
+      roomId.value = response.data.id;
       user();
     }).catch((error) => console.log(error));
   }

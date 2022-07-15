@@ -25,9 +25,9 @@ export class MessagesGateway {
   // }
 
   //모든 message 불러오기
-  @SubscribeMessage('findAllMessages')
-  findAllByRoom(@MessageBody('room') room: string) {
-    return this.messagesService.findAllByRoom(room);
+  @SubscribeMessage('findAllMessageByRoomId')
+  findAllByRoom(@MessageBody('roomId') roomId: number) {
+    return this.messagesService.findAllByRoom(roomId);
   }
 
   // //room 입장
