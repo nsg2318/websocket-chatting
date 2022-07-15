@@ -23,6 +23,11 @@ let MessagesGateway = class MessagesGateway {
     findAllByRoom(roomId) {
         return this.messagesService.findAllByRoom(roomId);
     }
+    async joinRoom(roomId, client) {
+        await this.messagesService.joinRoom(roomId, client);
+        console.log(`완료되었습니다. joinId = ${roomId}`);
+        return true;
+    }
 };
 __decorate([
     (0, websockets_1.WebSocketServer)(),
@@ -35,6 +40,14 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], MessagesGateway.prototype, "findAllByRoom", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('joinRoom'),
+    __param(0, (0, websockets_1.MessageBody)('roomId')),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, socket_io_1.Socket]),
+    __metadata("design:returntype", Promise)
+], MessagesGateway.prototype, "joinRoom", null);
 MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({ cors: {
             origin: '*',

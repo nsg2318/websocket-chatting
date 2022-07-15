@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Socket } from 'socket.io';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { Message } from './entities/message.entity';
 import { MessageRepository } from './meesages.repository';
@@ -15,13 +16,9 @@ export class MessagesService {
     return await this.messageRepository.findAllByRoom(roomId);
   }
 
-  // messages: Message[] = [{name: 'SYSTEM', text: '<<채팅방이 생성되었습니다.>>', time: Date.now(),}];
-
-  // clientToUser = {};
-
-  // identify(name: string, clientId: string) {
-  //   this.clientToUser[clientId] = name;
-
+  joinRoom(roomId: number, client: Socket) {
+   client.join(roomId.toString());
+  }
   //   return Object.values(this.clientToUser);
   // }
 
@@ -36,9 +33,4 @@ export class MessagesService {
   //   return message;
   // }
 
-  // findAll() {
-  //   return this.messages;
-  // }
-
-  
 }

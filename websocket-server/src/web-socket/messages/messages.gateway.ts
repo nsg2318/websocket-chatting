@@ -30,11 +30,13 @@ export class MessagesGateway {
     return this.messagesService.findAllByRoom(roomId);
   }
 
-  // //room 입장
-  // @SubscribeMessage('join')
-  // joinRoom(@MessageBody('name') name: string, @ConnectedSocket() client: Socket) {
-  //   return this.messagesService.identify(name, client.id);
-  // }
+  //room 입장
+  @SubscribeMessage('joinRoom')
+  async joinRoom(@MessageBody('roomId') roomId: number, @ConnectedSocket() client: Socket) {
+    await this.messagesService.joinRoom(roomId, client);
+    console.log(`완료되었습니다. joinId = ${roomId}`);
+    return true;
+  }
 
   // //typing 
   // @SubscribeMessage('typing')

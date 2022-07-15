@@ -19,6 +19,9 @@ let MessagesService = class MessagesService {
     async findAllByRoom(roomId) {
         return await this.messageRepository.findAllByRoom(roomId);
     }
+    joinRoom(roomId, client) {
+        client.join(roomId.toString());
+    }
 };
 MessagesService = __decorate([
     (0, common_1.Injectable)(),
