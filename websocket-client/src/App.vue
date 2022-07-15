@@ -20,19 +20,22 @@
   //etc
   const typingDisplay = ref('');
   onBeforeMount( () => {
-
-    socket.on('message', (message) => {
-    messages.value.push(message);
-
+    
     socket.on('typing', ({ name, isTyping }) => {
       if (isTyping) {
         typingDisplay.value = `${name}님이 입력중입니다...`;
       } else {
         typingDisplay.value = '';
       }
-    })
-  });
+    });
+    
+    
   })
+
+  socket.on('message', (message) => {
+        messages.value.push(message);
+      })
+
 
   const findMessageByRoom = () => {
     console.log(roomId.value);
@@ -42,7 +45,7 @@
   }
   //Method
   const sendMessage = () => {
-    socket.emit('createMessage',{ text: messageText.value }, response => {
+    socket.emit('createMessage',{ roomId: roomId.value, text: messageText.value, userName: userName.value }, response => {
       messageText.value ='';
     })
   }
@@ -50,9 +53,15 @@
     axios.post(`${apiUrl}/user`, {
       userName: userName.value
     }).then(() => {
+      joinRoom();
+    }).catch((error) => console.log(error));
+  }
+
+  const joinRoom = () => {
+    socket.emit('joinRoom', { roomId: roomId.value}, response => {
       joined.value = true;
       findMessageByRoom();
-    }).catch((error) => console.log(error));
+    })
   }
 
   const room = () => {
@@ -98,8 +107,9 @@
       </div>
       <div v-else>
         <div class="messages-container">
+          =============채팅방이 생성되었습니다.=============
           <div v-for="message in messages">
-            [{{message.time}}][{{message.name}}] : {{message.text}}
+            [{{message.roomName}}][{{message.userName}}] : {{message.text}}
           </div>
         </div>
         <div v-if="typingDisplay">{{ typingDisplay }}</div>

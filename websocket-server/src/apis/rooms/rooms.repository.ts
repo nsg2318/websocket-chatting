@@ -21,4 +21,8 @@ export class RoomsRepository{
             return findRoom;
         }
     }
+
+    async findById(roomId: number) {
+        return await this.roomRepository.findOne({where: {id: roomId}});
+    }
 }

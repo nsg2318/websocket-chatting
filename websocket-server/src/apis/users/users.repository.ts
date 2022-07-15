@@ -16,4 +16,8 @@ export class UserRepository {
     return await this.userRepository.save(user);
 
   }
+
+  async findByName(name: string): Promise<User> {
+    return await this.userRepository.findOne({where: {name: name}});
+  }
 }

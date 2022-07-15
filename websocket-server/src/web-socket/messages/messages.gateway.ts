@@ -1,7 +1,8 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, ConnectedSocket } from '@nestjs/websockets';
-import { MessagesService } from './messages.service';
-import { CreateMessageDto } from './dto/create-message.dto';
+import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { CreateMessageDto } from './dto/create-message.dto';
+import { EmitMessageDto } from './dto/emit-message.dto';
+import { MessagesService } from './messages.service';
 
 @WebSocketGateway({cors: {
 	origin: '*',
@@ -13,16 +14,16 @@ export class MessagesGateway {
 
   constructor(private readonly messagesService: MessagesService) {}
 
-  //message 전송
-  // @SubscribeMessage('createMessage')
-  // async create(
-  //   @MessageBody() createMessageDto: CreateMessageDto,
-  //   @ConnectedSocket() client: Socket,
-  //   ) {
-  //   const message = await this.messagesService.create(createMessageDto,client.id);
-  //   this.server.emit('message', message);
-  //   return message;
-  // }
+  // message 전송
+  @SubscribeMessage('createMessage')
+  async create(
+    @MessageBody() createMessageDto: CreateMessageDto,
+    @ConnectedSocket() client: Socket,
+    ) {
+    const emitMessageDto: EmitMessageDto = await this.messagesService.create(createMessageDto,client);
+    this.server.to(createMessageDto.roomId.toString()).emit('message', emitMessageDto);
+    return emitMessageDto;
+  }
 
   //모든 message 불러오기
   @SubscribeMessage('findAllMessageByRoomId')

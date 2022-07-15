@@ -25,6 +25,9 @@ let UserRepository = class UserRepository {
         const user = this.userRepository.create({ name });
         return await this.userRepository.save(user);
     }
+    async findByName(name) {
+        return await this.userRepository.findOne({ where: { name: name } });
+    }
 };
 UserRepository = __decorate([
     (0, common_1.Injectable)(),

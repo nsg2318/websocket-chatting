@@ -8,17 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessagesModule = void 0;
 const common_1 = require("@nestjs/common");
-const messages_service_1 = require("./messages.service");
-const messages_gateway_1 = require("./messages.gateway");
-const meesages_repository_1 = require("./meesages.repository");
 const typeorm_1 = require("@nestjs/typeorm");
+const rooms_module_1 = require("../../apis/rooms/rooms.module");
+const users_module_1 = require("../../apis/users/users.module");
 const message_entity_1 = require("./entities/message.entity");
+const meesages_repository_1 = require("./meesages.repository");
+const messages_gateway_1 = require("./messages.gateway");
+const messages_service_1 = require("./messages.service");
 let MessagesModule = class MessagesModule {
 };
 MessagesModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([message_entity_1.Message])],
-        providers: [messages_gateway_1.MessagesGateway, messages_service_1.MessagesService, meesages_repository_1.MessageRepository,]
+        imports: [typeorm_1.TypeOrmModule.forFeature([message_entity_1.Message]), users_module_1.UserModule, rooms_module_1.RoomsModule],
+        providers: [messages_gateway_1.MessagesGateway, messages_service_1.MessagesService, meesages_repository_1.MessageRepository]
     })
 ], MessagesModule);
 exports.MessagesModule = MessagesModule;

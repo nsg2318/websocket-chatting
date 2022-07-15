@@ -4,4 +4,5 @@ export declare class RoomsRepository {
     private roomRepository;
     constructor(roomRepository: Repository<Room>);
     createIfNotExists(name: string): Promise<Room>;
+    findById(roomId: number): Promise<Room>;
 }

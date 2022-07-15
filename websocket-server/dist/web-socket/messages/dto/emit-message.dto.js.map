@@ -1,0 +1,1 @@
+{"version":3,"file":"emit-message.dto.js","sourceRoot":"","sources":["../../../../src/web-socket/messages/dto/emit-message.dto.ts"],"names":[],"mappings":";;;AAEA,MAAa,cAAc;IAKvB,YAAY,QAAgB,EAAE,QAAgB,EAAE,OAAgB;QAC5D,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;QACzB,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;QACzB,IAAI,CAAC,IAAI,GAAG,OAAO,CAAC,IAAI,CAAC;IAC7B,CAAC;CACF;AAVH,wCAUG"}

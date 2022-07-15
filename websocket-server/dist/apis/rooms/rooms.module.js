@@ -19,7 +19,8 @@ RoomsModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([room_entity_1.Room])],
         controllers: [rooms_controller_1.RoomsController],
-        providers: [rooms_service_1.RoomsService, rooms_repository_1.RoomsRepository]
+        providers: [rooms_service_1.RoomsService, rooms_repository_1.RoomsRepository],
+        exports: [rooms_repository_1.RoomsRepository],
     })
 ], RoomsModule);
 exports.RoomsModule = RoomsModule;

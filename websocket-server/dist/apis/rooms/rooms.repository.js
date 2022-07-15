@@ -32,6 +32,9 @@ let RoomsRepository = class RoomsRepository {
             return findRoom;
         }
     }
+    async findById(roomId) {
+        return await this.roomRepository.findOne({ where: { id: roomId } });
+    }
 };
 RoomsRepository = __decorate([
     (0, common_1.Injectable)(),

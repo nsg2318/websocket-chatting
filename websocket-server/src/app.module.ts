@@ -8,7 +8,7 @@ import { MessagesModule } from './web-socket/messages/messages.module';
 import { RoomsModule } from './apis/rooms/rooms.module';
 
 @Module({
-  imports: [MessagesModule, RoomsModule,UserModule, TypeOrmModule.forRoot(typeORMConfig)],
+  imports: [MessagesModule, RoomsModule, UserModule, TypeOrmModule.forRoot(typeORMConfig)],
   controllers: [AppController],
   providers: [AppService],
 })

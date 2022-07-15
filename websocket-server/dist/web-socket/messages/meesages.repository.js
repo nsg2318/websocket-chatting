@@ -27,6 +27,10 @@ let MessageRepository = class MessageRepository {
         console.log(result[0]);
         return result;
     }
+    async saveMessage(room, user, text) {
+        const message = await this.messageRepository.create({ room, user, text });
+        return this.messageRepository.save(message);
+    }
 };
 MessageRepository = __decorate([
     (0, common_1.Injectable)(),
