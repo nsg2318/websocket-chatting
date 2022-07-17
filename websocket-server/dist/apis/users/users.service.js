@@ -16,11 +16,14 @@ let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    async create(name) {
+    async saveIfNotExist(name) {
         if (!name) {
             throw new common_1.UnauthorizedException('닉네임을 입력해주세요.');
         }
-        this.userRepository.join(name);
+        const user = await this.userRepository.findByName(name);
+        if (!user) {
+            this.userRepository.saveByName(name);
+        }
     }
 };
 UserService = __decorate([

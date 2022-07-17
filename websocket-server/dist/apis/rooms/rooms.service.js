@@ -16,8 +16,17 @@ let RoomsService = class RoomsService {
     constructor(roomsRepository) {
         this.roomsRepository = roomsRepository;
     }
-    async joinRoom(name) {
-        return await this.roomsRepository.createIfNotExists(name);
+    async saveIfNotExist(name) {
+        if (!name) {
+            throw new common_1.UnauthorizedException('방이름을 입력해주세요.');
+        }
+        const room = await this.roomsRepository.findByName(name);
+        if (!room) {
+            return await this.roomsRepository.saveByName(name);
+        }
+        else {
+            return room;
+        }
     }
 };
 RoomsService = __decorate([

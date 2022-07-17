@@ -31,7 +31,6 @@ let MessagesGateway = class MessagesGateway {
     }
     async joinRoom(roomId, client) {
         await this.messagesService.joinRoom(roomId, client);
-        console.log(`완료되었습니다. joinId = ${roomId}`);
         return true;
     }
 };

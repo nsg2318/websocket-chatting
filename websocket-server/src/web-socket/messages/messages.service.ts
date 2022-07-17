@@ -29,12 +29,7 @@ export class MessagesService {
   async joinRoom(roomId: number, client: Socket) {
    await client.join(roomId.toString());
   }
-  //   return Object.values(this.clientToUser);
-  // }
 
-  // getClientName(clientId: string) {
-  //   return this.clientToUser[clientId];
-  // }
   //todo user 메시지 보낼때마다 등록됨
   //새로 입장하는사람은 findall 할 때 못불러옴
   async create(createMessageDto: CreateMessageDto, client: Socket) {
@@ -42,7 +37,6 @@ export class MessagesService {
     const room: Room = await this.roomRepository.findById(roomId);
     const user: User = await this.userRepository.findByName(userName);
     const message: Message = await this.messageRepository.saveMessage(room,user,text);
-
     return new EmitMessageDto(room.name,userName,message);
   }
 

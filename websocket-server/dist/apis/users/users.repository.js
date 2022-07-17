@@ -21,9 +21,9 @@ let UserRepository = class UserRepository {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    async join(name) {
+    saveByName(name) {
         const user = this.userRepository.create({ name });
-        return await this.userRepository.save(user);
+        this.userRepository.save(user);
     }
     async findByName(name) {
         return await this.userRepository.findOne({ where: { name: name } });

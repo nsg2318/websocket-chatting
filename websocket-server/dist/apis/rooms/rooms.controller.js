@@ -19,8 +19,8 @@ let RoomsController = class RoomsController {
     constructor(roomsService) {
         this.roomsService = roomsService;
     }
-    async findOrCraeteRooms(roomName) {
-        return await this.roomsService.joinRoom(roomName);
+    async joinRoom(roomName) {
+        return await this.roomsService.saveIfNotExist(roomName);
     }
 };
 __decorate([
@@ -29,7 +29,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], RoomsController.prototype, "findOrCraeteRooms", null);
+], RoomsController.prototype, "joinRoom", null);
 RoomsController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [rooms_service_1.RoomsService])

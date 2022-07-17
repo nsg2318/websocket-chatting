@@ -11,15 +11,13 @@ export class RoomsRepository{
         private roomRepository: Repository<Room>,
     ){}
     
-    async createIfNotExists(name: string) {
-        const findRoom = await this.roomRepository.findOne({where: {name: name}});
-        console.log(`findRoom : ${findRoom}`);
-        if(!findRoom){
-            const saveRoom: Room =this.roomRepository.create({name});
-            return this.roomRepository.save(saveRoom);
-        } else {
-            return findRoom;
-        }
+    async saveByName(name: string) {
+        const saveRoom: Room =this.roomRepository.create({name});
+        return await this.roomRepository.save(saveRoom);    
+    }
+
+    async findByName(roomName: string) {
+        return await this.roomRepository.findOne({where: {name: roomName}});
     }
 
     async findById(roomId: number) {

@@ -8,7 +8,7 @@ export class RoomsController {
     }
 
     @Post('room')
-    async findOrCraeteRooms(@Body('roomName') roomName: string): Promise<Room>{
-        return await this.roomsService.joinRoom(roomName);
+    async joinRoom(@Body('roomName') roomName: string){
+        return await this.roomsService.saveIfNotExist(roomName);
     }
 }

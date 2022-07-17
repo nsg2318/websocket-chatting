@@ -35,7 +35,6 @@ export class MessagesGateway {
   @SubscribeMessage('joinRoom')
   async joinRoom(@MessageBody('roomId') roomId: number, @ConnectedSocket() client: Socket) {
     await this.messagesService.joinRoom(roomId, client);
-    console.log(`완료되었습니다. joinId = ${roomId}`);
     return true;
   }
 

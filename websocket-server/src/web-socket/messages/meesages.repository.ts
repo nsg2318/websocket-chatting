@@ -12,7 +12,7 @@ export class MessageRepository {
     private messageRepository: Repository<Message>,
   ){}
   
-  async findAllByRoom(roomId: number): Promise<Message[]> {
+  async findAllByRoom(roomId: number) {
     console.log(`room : ${roomId}`);
     const result = await this.messageRepository.find({where: {room: `${roomId}`}});
     console.log(result[0]);
@@ -20,7 +20,6 @@ export class MessageRepository {
   }
 
   async saveMessage(room: Room,user: User, text: string) {
-    
     const message: Message = await this.messageRepository.create({room,user,text});
     return this.messageRepository.save(message);
   }

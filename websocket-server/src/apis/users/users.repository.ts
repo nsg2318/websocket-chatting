@@ -10,14 +10,12 @@ export class UserRepository {
     private userRepository: Repository<User>,
     ){}
 
-  async join(name: string): Promise<User>{
+  saveByName(name: string) {
     const user: User = this.userRepository.create({name});
-  
-    return await this.userRepository.save(user);
-
+    this.userRepository.save(user);
   }
 
-  async findByName(name: string): Promise<User> {
+  async findByName(name: string) {
     return await this.userRepository.findOne({where: {name: name}});
   }
 }
