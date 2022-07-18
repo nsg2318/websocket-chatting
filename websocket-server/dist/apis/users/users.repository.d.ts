@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { User } from "./entities/user.entity";
-export declare class UserRepository {
+export declare class UsersRepository {
     private userRepository;
     constructor(userRepository: Repository<User>);
     saveByName(name: string): void;

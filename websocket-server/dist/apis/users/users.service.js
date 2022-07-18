@@ -9,26 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
+exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const users_repository_1 = require("./users.repository");
-let UserService = class UserService {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
+let UsersService = class UsersService {
+    constructor(usersRepository) {
+        this.usersRepository = usersRepository;
     }
     async saveIfNotExist(name) {
         if (!name) {
             throw new common_1.UnauthorizedException('닉네임을 입력해주세요.');
         }
-        const user = await this.userRepository.findByName(name);
+        const user = await this.usersRepository.findByName(name);
         if (!user) {
-            this.userRepository.saveByName(name);
+            this.usersRepository.saveByName(name);
         }
     }
 };
-UserService = __decorate([
+UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [users_repository_1.UserRepository])
-], UserService);
-exports.UserService = UserService;
+    __metadata("design:paramtypes", [users_repository_1.UsersRepository])
+], UsersService);
+exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

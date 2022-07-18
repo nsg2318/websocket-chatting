@@ -7,7 +7,7 @@ export class Room extends BaseEntity{
   @PrimaryGeneratedColumn()
   id: string;
 
-  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+  @CreateDateColumn()
   createdDate: Date;
   
   @Column()

@@ -16,11 +16,11 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 let UsersController = class UsersController {
-    constructor(userService) {
-        this.userService = userService;
+    constructor(usersService) {
+        this.usersService = usersService;
     }
     join(userName) {
-        this.userService.saveIfNotExist(userName);
+        this.usersService.saveIfNotExist(userName);
     }
 };
 __decorate([
@@ -32,7 +32,7 @@ __decorate([
 ], UsersController.prototype, "join", null);
 UsersController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [users_service_1.UserService])
+    __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.controller.js.map

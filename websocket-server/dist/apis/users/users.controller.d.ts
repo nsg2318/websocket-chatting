@@ -1,6 +1,6 @@
-import { UserService } from "./users.service";
+import { UsersService } from "./users.service";
 export declare class UsersController {
-    private readonly userService;
-    constructor(userService: UserService);
+    private readonly usersService;
+    constructor(usersService: UsersService);
     join(userName: string): void;
 }

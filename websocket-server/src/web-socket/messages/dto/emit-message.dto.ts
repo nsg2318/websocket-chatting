@@ -12,9 +12,8 @@ export class EmitMessageDto {
     }
 
     private makeCustomDate(date: Date): string{    
-
-        const month = date.getMonth();
-        const day = date.getDay();
+        const month = date.getMonth()+1;
+        const day = date.getDate();
         const hours = date.getHours();
         const minutes = date.getMinutes();
         

@@ -22,7 +22,7 @@ let MessagesGateway = class MessagesGateway {
         this.messagesService = messagesService;
     }
     async create(createMessageDto, client) {
-        const createdMessage = await this.messagesService.create(createMessageDto, client);
+        const createdMessage = await this.messagesService.create(createMessageDto);
         this.server.to(createMessageDto.roomId.toString()).emit('message', createdMessage);
         return createdMessage;
     }

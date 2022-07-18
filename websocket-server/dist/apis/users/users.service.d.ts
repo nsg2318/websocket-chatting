@@ -1,6 +1,6 @@
-import { UserRepository } from "./users.repository";
-export declare class UserService {
-    private readonly userRepository;
-    constructor(userRepository: UserRepository);
+import { UsersRepository } from "./users.repository";
+export declare class UsersService {
+    private readonly usersRepository;
+    constructor(usersRepository: UsersRepository);
     saveIfNotExist(name: string): Promise<void>;
 }

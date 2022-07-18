@@ -20,7 +20,7 @@ let MessagesModule = class MessagesModule {
 MessagesModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([message_entity_1.Message]), users_module_1.UserModule, rooms_module_1.RoomsModule],
-        providers: [messages_gateway_1.MessagesGateway, messages_service_1.MessagesService, meesages_repository_1.MessageRepository]
+        providers: [messages_gateway_1.MessagesGateway, messages_service_1.MessagesService, meesages_repository_1.MessagesRepository]
     })
 ], MessagesModule);
 exports.MessagesModule = MessagesModule;
