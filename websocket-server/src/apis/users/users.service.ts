@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { UserRepository } from "./users.repository";
+import { UsersRepository } from "./users.repository";
 
 @Injectable()
-export class UserService {
+export class UsersService {
 
-  constructor(private readonly userRepository: UserRepository){}
+  constructor(private readonly usersRepository: UsersRepository){}
 
 
   async saveIfNotExist(name: string) {
@@ -12,9 +12,9 @@ export class UserService {
       throw new UnauthorizedException('닉네임을 입력해주세요.');
     }
 
-    const user = await this.userRepository.findByName(name);
+    const user = await this.usersRepository.findByName(name);
     if(!user){
-      this.userRepository.saveByName(name);
+      this.usersRepository.saveByName(name);
     }
   }
 

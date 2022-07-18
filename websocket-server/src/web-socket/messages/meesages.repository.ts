@@ -6,7 +6,7 @@ import { Repository } from "typeorm";
 import { Message } from "./entities/message.entity";
 
 @Injectable()
-export class MessageRepository {
+export class MessagesRepository {
   constructor(
     @InjectRepository(Message)
     private messageRepository: Repository<Message>,
