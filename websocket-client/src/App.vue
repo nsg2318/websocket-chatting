@@ -75,29 +75,20 @@
         <input v-model="roomName"/><br>
         <button type="submit">제출</button>
         </form>
-        
-        
       </div>
     </div>
     <div class="chat-container" v-else>
-      <div v-if="!joined">
-        <div class="rooms-container">
-          <!-- find room -->
+      <div class="messages-container" v-bind:roomName="[roomName.value]" >
+        ========채팅방이 생성되었습니다. 방이름 : {{roomName}}========
+        <div v-for="message in messages">
+          [{{message.customDate}}][{{ message.userName }}] : {{message.text}}
         </div>
       </div>
-      <div v-else>
-        <div class="messages-container" v-bind:roomName="[roomName.value]" >
-          ========채팅방이 생성되었습니다. 방이름 : {{roomName}}========
-          <div v-for="message in messages">
-            [{{message.customDate}}][{{ message.userName }}] : {{message.text}}
-          </div>
-        </div>
-        <div class="message-input">
-          <form @submit.prevent="sendMessage">
-            <input v-model="messageText"/> <br>
-            <button type="submit">전송</button>
-          </form>
-        </div>
+      <div class="message-input">
+        <form @submit.prevent="sendMessage">
+          <input v-model="messageText"/> <br>
+          <button type="submit">전송</button>
+        </form>
       </div>
     </div>
   </div>

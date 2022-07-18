@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { WebSocketServer } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Socket } from 'socket.io';
 import { Room } from 'src/apis/rooms/entities/room.entity';
 import { RoomsRepository } from 'src/apis/rooms/rooms.repository';
 import { User } from 'src/apis/users/entities/user.entity';
@@ -13,8 +12,6 @@ import { MessagesRepository } from './meesages.repository';
 
 @Injectable()
 export class MessagesService {
-  @WebSocketServer()
-  server: Server;
 
   constructor(
     private readonly messagesRepository: MessagesRepository,
@@ -32,7 +29,7 @@ export class MessagesService {
    await client.join(roomId.toString());
   }
 
-  async create(createMessageDto: CreateMessageDto, client: Socket) {
+  async create(createMessageDto: CreateMessageDto) {
     const {roomId, text, userName} = createMessageDto;
     const room: Room = await this.roomRepository.findById(roomId);
     const user: User = await this.usersRepository.findByName(userName);

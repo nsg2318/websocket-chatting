@@ -20,7 +20,7 @@ export class MessagesGateway {
     @MessageBody() createMessageDto: CreateMessageDto,
     @ConnectedSocket() client: Socket,
     ) {
-    const createdMessage: EmitMessageDto = await this.messagesService.create(createMessageDto,client);
+    const createdMessage: EmitMessageDto = await this.messagesService.create(createMessageDto);
     this.server.to(createMessageDto.roomId.toString()).emit('message', createdMessage);
     return createdMessage;
   }
