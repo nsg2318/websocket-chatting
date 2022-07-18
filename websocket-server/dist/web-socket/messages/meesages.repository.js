@@ -22,14 +22,11 @@ let MessageRepository = class MessageRepository {
         this.messageRepository = messageRepository;
     }
     async findAllByRoom(roomId) {
-        console.log(`room : ${roomId}`);
-        const result = await this.messageRepository.find({ where: { room: `${roomId}` } });
-        console.log(result[0]);
-        return result;
+        return await this.messageRepository.find({ where: { room: roomId } });
     }
     async saveMessage(room, user, text) {
-        const message = await this.messageRepository.create({ room, user, text });
-        return this.messageRepository.save(message);
+        const message = this.messageRepository.create({ room, user, text });
+        return await this.messageRepository.save(message);
     }
 };
 MessageRepository = __decorate([

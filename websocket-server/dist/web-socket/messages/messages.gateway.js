@@ -22,9 +22,9 @@ let MessagesGateway = class MessagesGateway {
         this.messagesService = messagesService;
     }
     async create(createMessageDto, client) {
-        const emitMessageDto = await this.messagesService.create(createMessageDto, client);
-        this.server.to(createMessageDto.roomId.toString()).emit('message', emitMessageDto);
-        return emitMessageDto;
+        const createdMessage = await this.messagesService.create(createMessageDto, client);
+        this.server.to(createMessageDto.roomId.toString()).emit('message', createdMessage);
+        return createdMessage;
     }
     findAllByRoom(roomId) {
         return this.messagesService.findAllByRoom(roomId);

@@ -1,1 +1,1 @@
-{"version":3,"file":"create-message.dto.js","sourceRoot":"","sources":["../../../../src/web-socket/messages/dto/create-message.dto.ts"],"names":[],"mappings":";;;AAGA,MAAa,gBAAgB;CAI5B;AAJD,4CAIC"}
+{"version":3,"file":"create-message.dto.js","sourceRoot":"","sources":["../../../../src/web-socket/messages/dto/create-message.dto.ts"],"names":[],"mappings":";;;AACA,MAAa,gBAAgB;CAI5B;AAJD,4CAIC"}

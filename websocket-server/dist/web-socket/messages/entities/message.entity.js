@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Message = void 0;
-const user_entity_1 = require("../../../apis/users/entities/user.entity");
 const room_entity_1 = require("../../../apis/rooms/entities/room.entity");
+const user_entity_1 = require("../../../apis/users/entities/user.entity");
 const typeorm_1 = require("typeorm");
 let Message = class Message extends typeorm_1.BaseEntity {
 };
@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Message.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" }),
+    (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], Message.prototype, "createdDate", void 0);
 __decorate([
@@ -32,7 +32,7 @@ __decorate([
     __metadata("design:type", room_entity_1.Room)
 ], Message.prototype, "room", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.messages),
+    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.messages, { eager: true }),
     __metadata("design:type", user_entity_1.User)
 ], Message.prototype, "user", void 0);
 Message = __decorate([

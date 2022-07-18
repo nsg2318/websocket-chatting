@@ -13,14 +13,11 @@ export class MessageRepository {
   ){}
   
   async findAllByRoom(roomId: number) {
-    console.log(`room : ${roomId}`);
-    const result = await this.messageRepository.find({where: {room: `${roomId}`}});
-    console.log(result[0]);
-    return result;
+    return await this.messageRepository.find({where: {room: roomId}});
   }
 
   async saveMessage(room: Room,user: User, text: string) {
-    const message: Message = await this.messageRepository.create({room,user,text});
-    return this.messageRepository.save(message);
+    const message: Message = this.messageRepository.create({room,user,text});
+    return await this.messageRepository.save(message);
   }
 }

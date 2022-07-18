@@ -1,5 +1,4 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { Room } from "./entities/room.entity";
 import { RoomsService } from "./rooms.service";
 
 @Controller()

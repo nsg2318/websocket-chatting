@@ -3,7 +3,6 @@ import { RoomsRepository } from 'src/apis/rooms/rooms.repository';
 import { UserRepository } from 'src/apis/users/users.repository';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { EmitMessageDto } from './dto/emit-message.dto';
-import { Message } from './entities/message.entity';
 import { MessageRepository } from './meesages.repository';
 export declare class MessagesService {
     private readonly messageRepository;
@@ -11,7 +10,7 @@ export declare class MessagesService {
     private readonly roomRepository;
     server: Server;
     constructor(messageRepository: MessageRepository, userRepository: UserRepository, roomRepository: RoomsRepository);
-    findAllByRoom(roomId: number): Promise<Message[]>;
+    findAllByRoom(roomId: number): Promise<EmitMessageDto[]>;
     joinRoom(roomId: number, client: Socket): Promise<void>;
     create(createMessageDto: CreateMessageDto, client: Socket): Promise<EmitMessageDto>;
 }

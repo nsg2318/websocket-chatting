@@ -7,6 +7,6 @@ export declare class MessagesGateway {
     server: Server;
     constructor(messagesService: MessagesService);
     create(createMessageDto: CreateMessageDto, client: Socket): Promise<EmitMessageDto>;
-    findAllByRoom(roomId: number): Promise<import("./entities/message.entity").Message[]>;
+    findAllByRoom(roomId: number): Promise<EmitMessageDto[]>;
     joinRoom(roomId: number, client: Socket): Promise<boolean>;
 }

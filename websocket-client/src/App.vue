@@ -1,67 +1,55 @@
 <script setup>
-  import { io } from 'socket.io-client';
-  import { onBeforeMount, ref } from 'vue';
   import axios from 'axios';
+  import { io } from 'socket.io-client';
+  import { ref } from 'vue';
   
   //connection
   const apiUrl = 'http://localhost:3001';
   const socket = io(apiUrl);
   
-  //messaging
+  //message
   const messages = ref([]);
   const messageText = ref('');
   
-  //user & room 
+  //user, room 
   const joined = ref(false);
   const userName = ref('');
   const roomName = ref('');
   const roomId = ref('');
   
-  //etc
-  const typingDisplay = ref('');
-  onBeforeMount( () => {
-    
-    socket.on('typing', ({ name, isTyping }) => {
-      if (isTyping) {
-        typingDisplay.value = `${name}님이 입력중입니다...`;
-      } else {
-        typingDisplay.value = '';
-      }
-    });
-    
-    
-  })
-
+  //Websocket
   socket.on('message', (message) => {
         messages.value.push(message);
       })
 
 
   const findMessageByRoom = () => {
-    console.log(roomId.value);
     socket.emit('findAllMessageByRoomId',{roomId: roomId.value},response => {
       messages.value = response;
     });
   }
-  //Method
+
   const sendMessage = () => {
     socket.emit('createMessage',{ roomId: roomId.value, text: messageText.value, userName: userName.value }, response => {
       messageText.value ='';
     })
   }
-  const user = () => {
-    axios.post(`${apiUrl}/user`, {
-      userName: userName.value
-    }).then(() => {
-      joinRoom();
-    }).catch((error) => console.log(error));
-  }
+
 
   const joinRoom = () => {
     socket.emit('joinRoom', { roomId: roomId.value}, response => {
       joined.value = true;
       findMessageByRoom();
     })
+  }
+
+  //api
+  const user = () => {
+    axios.post(`${apiUrl}/user`, {
+      userName: userName.value
+    }).then(() => {
+      joinRoom();
+    }).catch((error) => console.log(error));
   }
 
   const room = () => {
@@ -73,14 +61,6 @@
     }).catch((error) => console.log(error));
   }
 
-  let timeout;
-  const emitTyping = () => {
-    socket.emit('typing', { isTyping: true});
-    timeout = setTimeout(() => {
-      socket.emit('typing', { isTyping: false});
-    },2000)
-  }
-  
 </script>
 
 <template>
@@ -106,16 +86,15 @@
         </div>
       </div>
       <div v-else>
-        <div class="messages-container">
-          =============채팅방이 생성되었습니다.=============
+        <div class="messages-container" v-bind:roomName="[roomName.value]" >
+          ========채팅방이 생성되었습니다. 방이름 : {{roomName}}========
           <div v-for="message in messages">
-            [{{message.roomName}}][{{message.userName}}] : {{message.text}}
+            [{{message.customDate}}][{{ message.userName }}] : {{message.text}}
           </div>
         </div>
-        <div v-if="typingDisplay">{{ typingDisplay }}</div>
         <div class="message-input">
           <form @submit.prevent="sendMessage">
-            <input v-model="messageText" @input="emitTyping"/> <br>
+            <input v-model="messageText"/> <br>
             <button type="submit">전송</button>
           </form>
         </div>

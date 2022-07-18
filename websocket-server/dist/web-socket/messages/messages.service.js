@@ -24,7 +24,9 @@ let MessagesService = class MessagesService {
         this.roomRepository = roomRepository;
     }
     async findAllByRoom(roomId) {
-        return await this.messageRepository.findAllByRoom(roomId);
+        const messages = await this.messageRepository.findAllByRoom(roomId);
+        const emitResult = messages.map((message) => new emit_message_dto_1.EmitMessageDto(message));
+        return emitResult;
     }
     async joinRoom(roomId, client) {
         await client.join(roomId.toString());
@@ -34,7 +36,7 @@ let MessagesService = class MessagesService {
         const room = await this.roomRepository.findById(roomId);
         const user = await this.userRepository.findByName(userName);
         const message = await this.messageRepository.saveMessage(room, user, text);
-        return new emit_message_dto_1.EmitMessageDto(room.name, userName, message);
+        return new emit_message_dto_1.EmitMessageDto(message);
     }
 };
 __decorate([

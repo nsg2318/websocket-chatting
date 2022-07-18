@@ -10,7 +10,7 @@ export class UserRepository {
     private userRepository: Repository<User>,
     ){}
 
-  saveByName(name: string) {
+  saveByName(name: string): void {
     const user: User = this.userRepository.create({name});
     this.userRepository.save(user);
   }

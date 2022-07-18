@@ -20,9 +20,9 @@ export class MessagesGateway {
     @MessageBody() createMessageDto: CreateMessageDto,
     @ConnectedSocket() client: Socket,
     ) {
-    const emitMessageDto: EmitMessageDto = await this.messagesService.create(createMessageDto,client);
-    this.server.to(createMessageDto.roomId.toString()).emit('message', emitMessageDto);
-    return emitMessageDto;
+    const createdMessage: EmitMessageDto = await this.messagesService.create(createMessageDto,client);
+    this.server.to(createMessageDto.roomId.toString()).emit('message', createdMessage);
+    return createdMessage;
   }
 
   //모든 message 불러오기
@@ -37,15 +37,5 @@ export class MessagesGateway {
     await this.messagesService.joinRoom(roomId, client);
     return true;
   }
-
-  // //typing 
-  // @SubscribeMessage('typing')
-  // async typing(
-  //   @MessageBody('isTyping') isTyping: boolean,
-  //   @ConnectedSocket() client: Socket,
-  // ) {
-  //   const name = await this.messagesService.getClientName(client.id);
-  //   client.broadcast.emit('typing', {name, isTyping});
-  // }
 
 }
