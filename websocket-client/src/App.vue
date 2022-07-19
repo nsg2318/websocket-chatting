@@ -11,11 +11,17 @@
   const messages = ref([]);
   const messageText = ref('');
   
-  //user, room 
-  const joined = ref(false);
-  const userName = ref('');
+  //room 
+  const rooms = ref([]);
   const roomName = ref('');
   const roomId = ref('');
+  const joinedRoom = ref(false);
+  
+  //user
+  const joined = ref(false);
+  const userId = ref('');
+  const userName = ref('');
+  
   
   //Websocket
   socket.on('message', (message) => {
@@ -47,9 +53,16 @@
   const user = () => {
     axios.post(`${apiUrl}/user`, {
       userName: userName.value
-    }).then(() => {
-      joinRoom();
+    }).then((response) => {
+      userId.value = response.data.id;
+      roomListByUserId(userId.value);
     }).catch((error) => console.log(error));
+  }
+
+  const roomListByUserId = (userId) => {
+    axios.post(`${apiUrl}/room/${userId}}`,{},response => {
+        rooms.value = response;
+    });
   }
 
   const room = () => {
@@ -61,20 +74,30 @@
     }).catch((error) => console.log(error));
   }
 
+  const signIn = () => {
+    axios.post(`${apiUrl}/roomUser/${userId}`);
+  }
+
 </script>
 
 <template>
   <div class="chat">
-    <div v-if="!joined">
-      <div class="greetings">
-        <h1 class="green">OJT WebSocket</h1>
-        <form @submit.prevent="room">
-        <h3 class="white">닉네임을 입력하세요.</h3>
-        <input v-model="userName"/><br><br>
-        <h3 class="white">Room 코드를 입력하세요.</h3>
-        <input v-model="roomName"/><br>
-        <button type="submit">제출</button>
-        </form>
+    <div v-if="!joinedRoom">
+      <div v-if="!joined">
+        <div class="signIn">
+          <h1 class="green">WebSocket Chatting v1.1.24</h1>
+          <form @submit.prevent="user">
+          <h3 class="white">닉네임을 입력하세요. 이 작업은 회원가입 또는 로그인을 진행합니다.</h3>
+          <input v-model="userName"/><br><br>
+          <button type="submit">제출</button>
+          </form>
+        </div>
+      </div>
+      <div v-else>
+        <div class="rooms">
+          <h3 class="white">Room 코드를 입력하세요.</h3>
+          <input v-model="roomName"/><br>
+        </div>
       </div>
     </div>
     <div class="chat-container" v-else>

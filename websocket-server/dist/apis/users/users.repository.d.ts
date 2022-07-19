@@ -5,4 +5,5 @@ export declare class UsersRepository {
     constructor(userRepository: Repository<User>);
     saveByName(name: string): void;
     findByName(name: string): Promise<User>;
+    findById(userId: number): Promise<User>;
 }

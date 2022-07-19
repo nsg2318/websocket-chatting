@@ -24,14 +24,14 @@ let RoomsController = class RoomsController {
     }
 };
 __decorate([
-    (0, common_1.Post)('room'),
+    (0, common_1.Post)(),
     __param(0, (0, common_1.Body)('roomName')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], RoomsController.prototype, "joinRoom", null);
 RoomsController = __decorate([
-    (0, common_1.Controller)(),
+    (0, common_1.Controller)('room'),
     __metadata("design:paramtypes", [rooms_service_1.RoomsService])
 ], RoomsController);
 exports.RoomsController = RoomsController;

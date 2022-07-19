@@ -28,6 +28,9 @@ let UsersRepository = class UsersRepository {
     async findByName(name) {
         return await this.userRepository.findOne({ where: { name: name } });
     }
+    async findById(userId) {
+        return await this.userRepository.findOne({ where: { id: userId } });
+    }
 };
 UsersRepository = __decorate([
     (0, common_1.Injectable)(),

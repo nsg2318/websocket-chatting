@@ -13,11 +13,12 @@ const users_module_1 = require("./apis/users/users.module");
 const typeorm_config_1 = require("./configs/typeorm.config");
 const messages_module_1 = require("./web-socket/messages/messages.module");
 const rooms_module_1 = require("./apis/rooms/rooms.module");
+const roomsUsers_module_1 = require("./apis/roomsusers/roomsUsers.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [messages_module_1.MessagesModule, rooms_module_1.RoomsModule, users_module_1.UserModule, typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig)],
+        imports: [messages_module_1.MessagesModule, rooms_module_1.RoomsModule, users_module_1.UserModule, roomsUsers_module_1.RoomsUsersModule, typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig)],
     })
 ], AppModule);
 exports.AppModule = AppModule;

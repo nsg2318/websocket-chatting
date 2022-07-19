@@ -26,8 +26,8 @@ let MessagesGateway = class MessagesGateway {
         this.server.to(createMessageDto.roomId.toString()).emit('message', createdMessage);
         return createdMessage;
     }
-    findAllByRoom(roomId) {
-        return this.messagesService.findAllByRoom(roomId);
+    async findAllByRoom(roomId) {
+        return await this.messagesService.findAllByRoom(roomId);
     }
     async joinRoom(roomId, client) {
         await this.messagesService.joinRoom(roomId, client);
@@ -50,7 +50,7 @@ __decorate([
     __param(0, (0, websockets_1.MessageBody)('roomId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "findAllByRoom", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('joinRoom'),

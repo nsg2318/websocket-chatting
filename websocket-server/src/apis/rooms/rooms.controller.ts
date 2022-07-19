@@ -1,12 +1,12 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { RoomsService } from "./rooms.service";
 
-@Controller()
+@Controller('room')
 export class RoomsController {
     constructor(private readonly roomsService: RoomsService){
     }
 
-    @Post('room')
+    @Post()
     async joinRoom(@Body('roomName') roomName: string){
         return await this.roomsService.saveIfNotExist(roomName);
     }

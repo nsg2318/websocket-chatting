@@ -2,6 +2,7 @@ import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { User } from "src/apis/users/entities/user.entity";
 import { Message } from "src/web-socket/messages/entities/message.entity";
 import { Room } from "src/apis/rooms/entities/room.entity";
+import { RoomUser } from "src/apis/roomsusers/entities/roomuser.entity";
 
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -10,6 +11,6 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   username: 'sunba',
   password: 'sunba',
   database: 'websocket',
-  entities: [Room,User,Message],
+  entities: [Room,User,Message,RoomUser],
   synchronize: true,
 };

@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Room = void 0;
+const roomuser_entity_1 = require("../../roomsusers/entities/roomuser.entity");
 const message_entity_1 = require("../../../web-socket/messages/entities/message.entity");
 const typeorm_1 = require("typeorm");
 let Room = class Room extends typeorm_1.BaseEntity {
@@ -30,6 +31,10 @@ __decorate([
     (0, typeorm_1.OneToMany)((type) => message_entity_1.Message, (message) => message.room),
     __metadata("design:type", Array)
 ], Room.prototype, "messages", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)((type) => roomuser_entity_1.RoomUser, (roomUser) => roomUser.room),
+    __metadata("design:type", Array)
+], Room.prototype, "roomUsers", void 0);
 Room = __decorate([
     (0, typeorm_1.Entity)()
 ], Room);

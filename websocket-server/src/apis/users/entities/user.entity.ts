@@ -1,3 +1,4 @@
+import { RoomUser } from "src/apis/roomsusers/entities/roomuser.entity";
 import { Message } from "src/web-socket/messages/entities/message.entity";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -15,4 +16,7 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Message, (message) => message.user)
   messages: Message[];
+
+  @OneToMany((type) => RoomUser, (roomUser) => roomUser.user)
+  roomUsers: RoomUser[];
 }

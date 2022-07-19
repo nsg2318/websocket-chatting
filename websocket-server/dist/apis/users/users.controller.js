@@ -24,14 +24,14 @@ let UsersController = class UsersController {
     }
 };
 __decorate([
-    (0, common_1.Post)('user'),
+    (0, common_1.Post)(),
     __param(0, (0, common_1.Body)('userName')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "join", null);
 UsersController = __decorate([
-    (0, common_1.Controller)(),
+    (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 exports.UsersController = UsersController;
