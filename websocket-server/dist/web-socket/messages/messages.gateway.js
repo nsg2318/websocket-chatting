@@ -21,7 +21,7 @@ let MessagesGateway = class MessagesGateway {
     constructor(messagesService) {
         this.messagesService = messagesService;
     }
-    async create(createMessageDto, client) {
+    async create(createMessageDto) {
         const createdMessage = await this.messagesService.create(createMessageDto);
         this.server.to(createMessageDto.roomId.toString()).emit('message', createdMessage);
         return createdMessage;
@@ -41,10 +41,8 @@ __decorate([
 __decorate([
     (0, websockets_1.SubscribeMessage)('createMessage'),
     __param(0, (0, websockets_1.MessageBody)()),
-    __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_message_dto_1.CreateMessageDto,
-        socket_io_1.Socket]),
+    __metadata("design:paramtypes", [create_message_dto_1.CreateMessageDto]),
     __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "create", null);
 __decorate([
@@ -64,7 +62,7 @@ __decorate([
 ], MessagesGateway.prototype, "joinRoom", null);
 MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({ cors: {
-            origin: '*',
+            origin: 'http://localhost:3000',
         },
     }),
     __metadata("design:paramtypes", [messages_service_1.MessagesService])

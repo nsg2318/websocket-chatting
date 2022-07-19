@@ -19,6 +19,7 @@ export class MessagesService {
     private readonly roomRepository: RoomsRepository
   ){}
 
+  //todo : 개선
   async findAllByRoom(roomId: number) {
     const messages: Message[] = await this.messagesRepository.findAllByRoom(roomId);
     const emitResult = messages.map((message) => new EmitMessageDto(message));

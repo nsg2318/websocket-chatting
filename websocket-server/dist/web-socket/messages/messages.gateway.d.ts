@@ -6,7 +6,7 @@ export declare class MessagesGateway {
     private readonly messagesService;
     server: Server;
     constructor(messagesService: MessagesService);
-    create(createMessageDto: CreateMessageDto, client: Socket): Promise<EmitMessageDto>;
+    create(createMessageDto: CreateMessageDto): Promise<EmitMessageDto>;
     findAllByRoom(roomId: number): Promise<EmitMessageDto[]>;
     joinRoom(roomId: number, client: Socket): Promise<boolean>;
 }

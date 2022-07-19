@@ -5,7 +5,7 @@ import { EmitMessageDto } from './dto/emit-message.dto';
 import { MessagesService } from './messages.service';
 
 @WebSocketGateway({cors: {
-	origin: '*',
+	origin: 'http://localhost:3000',
   },
 })
 export class MessagesGateway {
@@ -18,7 +18,6 @@ export class MessagesGateway {
   @SubscribeMessage('createMessage')
   async create(
     @MessageBody() createMessageDto: CreateMessageDto,
-    @ConnectedSocket() client: Socket,
     ) {
     const createdMessage: EmitMessageDto = await this.messagesService.create(createMessageDto);
     this.server.to(createMessageDto.roomId.toString()).emit('message', createdMessage);
