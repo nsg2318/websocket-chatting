@@ -14,20 +14,22 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoomsController = void 0;
 const common_1 = require("@nestjs/common");
+const create_room_dto_1 = require("./dto/create-room.dto");
 const rooms_service_1 = require("./rooms.service");
 let RoomsController = class RoomsController {
     constructor(roomsService) {
         this.roomsService = roomsService;
     }
-    async joinRoom(roomName) {
-        return await this.roomsService.saveIfNotExist(roomName);
+    async joinRoom(createRoomDto) {
+        console.log(createRoomDto);
+        return await this.roomsService.save(createRoomDto);
     }
 };
 __decorate([
     (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)('roomName')),
+    __param(0, (0, common_1.Body)('createRoomDto')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [create_room_dto_1.CreateRoomDto]),
     __metadata("design:returntype", Promise)
 ], RoomsController.prototype, "joinRoom", null);
 RoomsController = __decorate([

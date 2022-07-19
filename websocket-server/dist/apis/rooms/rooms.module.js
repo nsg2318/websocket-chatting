@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoomsModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const roomsUsers_module_1 = require("../roomsusers/roomsUsers.module");
+const users_module_1 = require("../users/users.module");
 const room_entity_1 = require("./entities/room.entity");
 const rooms_controller_1 = require("./rooms.controller");
 const rooms_repository_1 = require("./rooms.repository");
@@ -17,7 +19,7 @@ let RoomsModule = class RoomsModule {
 };
 RoomsModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([room_entity_1.Room])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([room_entity_1.Room]), (0, common_1.forwardRef)(() => roomsUsers_module_1.RoomsUsersModule), users_module_1.UserModule],
         controllers: [rooms_controller_1.RoomsController],
         providers: [rooms_service_1.RoomsService, rooms_repository_1.RoomsRepository],
         exports: [rooms_repository_1.RoomsRepository],

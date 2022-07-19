@@ -1,4 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
+import { CreateRoomDto } from "./dto/create-room.dto";
 import { RoomsService } from "./rooms.service";
 
 @Controller('room')
@@ -7,7 +8,8 @@ export class RoomsController {
     }
 
     @Post()
-    async joinRoom(@Body('roomName') roomName: string){
-        return await this.roomsService.saveIfNotExist(roomName);
+    async joinRoom(@Body('createRoomDto') createRoomDto: CreateRoomDto){
+        console.log(createRoomDto);
+        return await this.roomsService.save(createRoomDto);
     }
 }

@@ -21,8 +21,8 @@ let RoomsRepository = class RoomsRepository {
     constructor(roomRepository) {
         this.roomRepository = roomRepository;
     }
-    async saveByName(name) {
-        const saveRoom = this.roomRepository.create({ name });
+    async save(roomName, hostName) {
+        const saveRoom = this.roomRepository.create({ name: roomName, hostName: hostName });
         return await this.roomRepository.save(saveRoom);
     }
     async findByName(roomName) {

@@ -28,6 +28,10 @@ __decorate([
     __metadata("design:type", String)
 ], Room.prototype, "name", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Room.prototype, "hostName", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)((type) => message_entity_1.Message, (message) => message.room),
     __metadata("design:type", Array)
 ], Room.prototype, "messages", void 0);

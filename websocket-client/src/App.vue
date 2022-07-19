@@ -55,23 +55,31 @@
       userName: userName.value
     }).then((response) => {
       userId.value = response.data.id;
+      joined.value = true;
       roomListByUserId(userId.value);
     }).catch((error) => console.log(error));
   }
 
   const roomListByUserId = (userId) => {
-    axios.post(`${apiUrl}/room/${userId}}`,{},response => {
-        rooms.value = response;
-    });
+    axios.get(`${apiUrl}/roomUser/${userId}`,{})
+      .then((response) => {
+        // rooms.value = response;
+        console.log(response);
+      });
   }
 
   const room = () => {
     axios.post(`${apiUrl}/room`, {
-      roomName: roomName.value
+      createRoomDto: {
+        roomName: roomName.value,
+        hostName: userName.value
+      }
     }).then((response) => {
       roomId.value = response.data.id;
-      user();
-    }).catch((error) => console.log(error));
+      // user();
+    }).catch((error) => {
+      alert(error);
+    });
   }
 
   const signIn = () => {
@@ -84,7 +92,7 @@
   <div class="chat">
     <div v-if="!joinedRoom">
       <div v-if="!joined">
-        <div class="signIn">
+        <div class="identify">
           <h1 class="green">WebSocket Chatting v1.1.24</h1>
           <form @submit.prevent="user">
           <h3 class="white">닉네임을 입력하세요. 이 작업은 회원가입 또는 로그인을 진행합니다.</h3>
@@ -94,9 +102,13 @@
         </div>
       </div>
       <div v-else>
-        <div class="rooms">
-          <h3 class="white">Room 코드를 입력하세요.</h3>
+        <div class="room-container">
+          <form @submit.prevent="room">
+          <h3 class="white">Room 생성하기. Room 이름을 입력하세요.</h3>
           <input v-model="roomName"/><br>
+          <button type="submit">제출</button>
+          </form>
+
         </div>
       </div>
     </div>

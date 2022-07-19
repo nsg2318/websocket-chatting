@@ -5,6 +5,7 @@ export declare class Room extends BaseEntity {
     id: string;
     createdDate: Date;
     name: string;
+    hostName: string;
     messages: Message[];
     roomUsers: RoomUser[];
 }

@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Room } from "../rooms/entities/room.entity";
 import { User } from "../users/entities/user.entity";
 import { UsersRepository } from "../users/users.repository";
 import { RoomUser } from "./entities/roomuser.entity";

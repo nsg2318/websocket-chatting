@@ -11,8 +11,8 @@ export class RoomsRepository{
         private roomRepository: Repository<Room>,
     ){}
     
-    async saveByName(name: string) {
-        const saveRoom: Room =this.roomRepository.create({name});
+    async save(roomName: string, hostName: string) {
+        const saveRoom: Room =this.roomRepository.create({name: roomName, hostName: hostName});
         return await this.roomRepository.save(saveRoom);    
     }
 
