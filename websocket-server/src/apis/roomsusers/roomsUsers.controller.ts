@@ -8,7 +8,5 @@ export class RoomsUsersController {
   @Get('/:userId')
   async findAllByUserId(@Param('userId') userId: number) {
     return await this.roomsUsersService.findAllByUserId(userId);
-  }
-
-  
+  }  
 }

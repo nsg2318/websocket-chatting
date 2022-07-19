@@ -63,8 +63,8 @@
   const roomListByUserId = (userId) => {
     axios.get(`${apiUrl}/roomUser/${userId}`,{})
       .then((response) => {
-        // rooms.value = response;
-        console.log(response);
+        rooms.value = response.data;
+        // console.log(`rooms.value : ${rooms.value}`);
       });
   }
 
@@ -76,6 +76,7 @@
       }
     }).then((response) => {
       roomId.value = response.data.id;
+      roomListByUserId(userId.value);
       // user();
     }).catch((error) => {
       alert(error);
@@ -103,6 +104,10 @@
       </div>
       <div v-else>
         <div class="room-container">
+          ==========참여중인 채팅방 목록 ==========
+          <div v-for="room in rooms">
+            [{{room.id}}] [{{room.room.name}}] [{{room.room.hostName}}]
+          </div>
           <form @submit.prevent="room">
           <h3 class="white">Room 생성하기. Room 이름을 입력하세요.</h3>
           <input v-model="roomName"/><br>

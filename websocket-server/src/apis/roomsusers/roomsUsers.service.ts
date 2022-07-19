@@ -1,8 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { Room } from "../rooms/entities/room.entity";
 import { User } from "../users/entities/user.entity";
 import { UsersRepository } from "../users/users.repository";
-import { RoomUser } from "./entities/roomuser.entity";
 import { RoomsUsersRepository } from "./roomsUsers.repository";
 
 @Injectable()
@@ -14,9 +12,7 @@ export class RoomsUsersService {
 
   async findAllByUserId(userId: number) {
     const user: User = await this.usersRepository.findById(userId);
-    const roomsUsers: RoomUser[] = await this.roomsUsersRepository.findByUser(user);
-    //todo
-    //roomsUsers -> room 리스트로 map 변환
+    return await this.roomsUsersRepository.findByUser(user);
   }
 
 }

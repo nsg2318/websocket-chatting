@@ -13,7 +13,7 @@ export class RoomsUsersRepository {
   ){}
 
   async findByUser(user: User) {
-    return await this.roomUserRepository.find({where: {user: user}});
+    return await this.roomUserRepository.find({where: {user: user.id}});
   }
 
   async save(user: User, room: Room){
