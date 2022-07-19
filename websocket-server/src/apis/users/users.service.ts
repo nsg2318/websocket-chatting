@@ -12,10 +12,11 @@ export class UsersService {
       throw new UnauthorizedException('닉네임을 입력해주세요.');
     }
 
-    const user = await this.usersRepository.findByName(name);
+    let user = await this.usersRepository.findByName(name);
     if(!user){
-      this.usersRepository.saveByName(name);
+      user = await this.usersRepository.saveByName(name);
     }
+    return user;
   }
 
 }

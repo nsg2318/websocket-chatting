@@ -11,9 +11,9 @@ export class UsersRepository {
     private userRepository: Repository<User>,
     ){}
 
-  saveByName(name: string): void {
+  async saveByName(name: string) {
     const user: User = this.userRepository.create({name});
-    this.userRepository.save(user);
+    return await this.userRepository.save(user);
   }
 
   async findByName(name: string) {

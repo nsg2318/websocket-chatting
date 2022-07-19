@@ -7,8 +7,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService){}
 
   @Post()
-  join(@Body('userName') userName: string){
-    this.usersService.saveIfNotExist(userName);
+  async join(@Body('userName') userName: string){
+    return await this.usersService.saveIfNotExist(userName);
   }
 
 }

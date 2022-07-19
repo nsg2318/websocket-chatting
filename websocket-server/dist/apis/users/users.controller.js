@@ -19,8 +19,8 @@ let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    join(userName) {
-        this.usersService.saveIfNotExist(userName);
+    async join(userName) {
+        return await this.usersService.saveIfNotExist(userName);
     }
 };
 __decorate([
@@ -28,7 +28,7 @@ __decorate([
     __param(0, (0, common_1.Body)('userName')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "join", null);
 UsersController = __decorate([
     (0, common_1.Controller)('user'),
