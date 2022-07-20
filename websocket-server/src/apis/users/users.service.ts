@@ -33,7 +33,10 @@ export class UsersService {
     for(let i = 0; i < socketsArr.length; i++){
       const socket = socketsArr[i];
       const user: User = await this.usersRepository.findBySocketId(socket);
-      userArr.push(user);
+      if(user){
+        userArr.push(user);
+      }
+ 
     }
     return userArr;
   }
