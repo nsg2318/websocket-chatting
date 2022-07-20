@@ -1,5 +1,6 @@
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { User } from 'src/apis/users/entities/user.entity';
 import { UsersService } from 'src/apis/users/users.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { EmitMessageDto } from './dto/emit-message.dto';
@@ -49,6 +50,13 @@ export class MessagesGateway {
   @SubscribeMessage('saveSocketId')
   async saveSocket(@MessageBody('userId') userId: number, @ConnectedSocket() client: Socket){
     return await this.usersService.saveSocketId(userId,client.id);
+  }
+
+  @SubscribeMessage('getAllSocketUser')
+  async getAllSocketUser(){
+    const sockets: Set<string> = await this.server.allSockets();
+    const users: User[] = await this.usersService.findUserBySocketId(sockets);
+    return users;
   }
 
 }

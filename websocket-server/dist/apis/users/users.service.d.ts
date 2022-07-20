@@ -5,4 +5,6 @@ export declare class UsersService {
     constructor(usersRepository: UsersRepository);
     saveIfNotExist(name: string): Promise<User>;
     saveSocketId(userId: number, socketId: string): Promise<void>;
+    findUserBySocketId(sockets: Set<string>): Promise<User[]>;
+    findSocketIdByUserId(userId: number): Promise<string>;
 }

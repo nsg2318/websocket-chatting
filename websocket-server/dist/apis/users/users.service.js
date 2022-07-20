@@ -27,8 +27,22 @@ let UsersService = class UsersService {
         return user;
     }
     async saveSocketId(userId, socketId) {
-        const updateResult = await this.usersRepository.updateSocketIdByUserId(userId, socketId);
-        console.log(updateResult);
+        await this.usersRepository.updateSocketIdByUserId(userId, socketId);
+    }
+    async findUserBySocketId(sockets) {
+        const socketsArr = Array.from(sockets);
+        let userArr = [];
+        console.log(socketsArr[0]);
+        for (let i = 0; i < socketsArr.length; i++) {
+            const socket = socketsArr[i];
+            const user = await this.usersRepository.findBySocketId(socket);
+            userArr.push(user);
+        }
+        return userArr;
+    }
+    async findSocketIdByUserId(userId) {
+        const user = await this.usersRepository.findById(userId);
+        return user.socketId;
     }
 };
 UsersService = __decorate([

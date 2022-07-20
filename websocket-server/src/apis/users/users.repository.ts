@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { IsNull, Repository, Not } from "typeorm";
 import { User } from "./entities/user.entity";
 
 @Injectable()
@@ -27,4 +27,9 @@ export class UsersRepository {
   async updateSocketIdByUserId(userId: number,socketId: string) {
     return await this.userRepository.update({ id: userId }, {socketId: socketId});
   }
+
+  async findBySocketId(socketId: string) {
+    return await this.userRepository.findOne({where: {socketId: socketId}});
+  }
+
 }

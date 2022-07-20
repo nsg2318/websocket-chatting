@@ -34,6 +34,9 @@ let UsersRepository = class UsersRepository {
     async updateSocketIdByUserId(userId, socketId) {
         return await this.userRepository.update({ id: userId }, { socketId: socketId });
     }
+    async findBySocketId(socketId) {
+        return await this.userRepository.findOne({ where: { socketId: socketId } });
+    }
 };
 UsersRepository = __decorate([
     (0, common_1.Injectable)(),

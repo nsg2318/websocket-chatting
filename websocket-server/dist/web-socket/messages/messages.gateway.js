@@ -39,6 +39,11 @@ let MessagesGateway = class MessagesGateway {
     async saveSocket(userId, client) {
         return await this.usersService.saveSocketId(userId, client.id);
     }
+    async getAllSocketUser() {
+        const sockets = await this.server.allSockets();
+        const users = await this.usersService.findUserBySocketId(sockets);
+        return users;
+    }
 };
 __decorate([
     (0, websockets_1.WebSocketServer)(),
@@ -74,6 +79,12 @@ __decorate([
     __metadata("design:paramtypes", [Number, socket_io_1.Socket]),
     __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "saveSocket", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('getAllSocketUser'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], MessagesGateway.prototype, "getAllSocketUser", null);
 MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({ cors: {
             origin: 'http://localhost:3000',

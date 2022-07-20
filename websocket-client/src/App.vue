@@ -30,11 +30,11 @@
   
   
   const modalToggle = ref(false);
+  const socketUser = ref([]);
   //Websocket
   socket.on('message', (message) => {
         messages.value.push(message);
       })
-
 
   const findMessageByRoom = () => {
     socket.emit('findAllMessageByRoomId',{roomId: roomId.value},response => {
@@ -48,6 +48,13 @@
     })
   }
 
+//현재 연결이 성립된 소켓id로 유저name리턴
+  const getAllSocketUser = () => {
+   socket.emit('getAllSocketUser', {}, response => {
+      socketUser.value = response;
+      modalToggle.value = !modalToggle.value;
+    });
+  }
 
   const joinRoom = (id, name) => {
     roomId.value = id;
@@ -55,11 +62,11 @@
     socket.emit('joinRoom', {roomId: roomId.value}, response => {
       joinedRoom.value = true;
       findMessageByRoom();
-    })
+    });
   }
 
-  const saveSocketId = () => {
-    socket.emit('saveSocketId', {userId: userId.value});
+  const saveSocketId = (id) => {
+    socket.emit('saveSocketId',{userId: id});
   }
   //api
   const user = () => {
@@ -68,8 +75,8 @@
     }).then((response) => {
       userId.value = response.data.id;
       joined.value = true;
-      saveSocketId();
       roomListByUserId(userId.value);
+      saveSocketId(userId.value);
     }).catch((error) => console.log(error));
   }
 
@@ -102,6 +109,8 @@
   const roomToggle = () => {
     modalToggle.value = !modalToggle.value;
   }
+
+  
 </script>
 
 <template>
@@ -130,18 +139,25 @@
            <button v-on:click="joinRoom(room.id,room.room.name)">입장하기</button>
           </div><br><br><br>
           <form @submit.prevent="createRoom">
-          <input v-model="roomName"/><br>
-          <h3 class="white">Room 생성하기. Room 이름을 입력하세요.</h3>
-          <br>
-          <button type="submit">제출</button>
-          <button @click="roomToggle()" type="button">
-          모달창 띄우기
+          <!-- <input v-model="roomName"/><br> -->
+          <!-- <h3 class="white">Room 생성하기. Room 이름을 입력하세요.</h3> -->
+          <!-- <br> -->
+          <!-- <button type="submit">제출</button> -->
+          <button v-on:click="getAllSocketUser()" type="button">
+          채팅방 생성하기
           </button>
           </form>
-
-          <div v-if="!modalToggle">
-            <h5> 하이루 . </h5>
-            <button @click="roomToggle()" type="button">확인</button>
+          <div v-if="modalToggle">
+            <div class="modal_box">
+              <h5> 현재 연결된 유저목록 </h5>
+              <div class="modal_list">
+                <div v-for="user in socketUser">
+                {{user.name}}
+                </div>
+              </div>
+              <button @click="roomToggle()" type="button">만들기</button>
+              <button @click="roomToggle()" type="button">취소</button>
+            </div>
           </div>
 
         </div>
@@ -197,6 +213,27 @@
 
 .messages-container{
   flex: 1;
+}
+
+ .modal_box {
+  position: fixed;
+  display: block;
+  z-index: 200;
+  top: 20%;
+  left: 30%;
+  width: 40%;
+  background: grey;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+}
+
+.modal_list{
+  position: relative;
+  font-size: 20px;
 }
 
 .roomList{

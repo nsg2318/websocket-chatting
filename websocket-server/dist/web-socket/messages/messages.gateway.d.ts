@@ -1,4 +1,5 @@
 import { Server, Socket } from 'socket.io';
+import { User } from 'src/apis/users/entities/user.entity';
 import { UsersService } from 'src/apis/users/users.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { EmitMessageDto } from './dto/emit-message.dto';
@@ -12,4 +13,5 @@ export declare class MessagesGateway {
     findAllByRoom(roomId: number): Promise<EmitMessageDto[]>;
     joinRoom(roomId: number, client: Socket): Promise<boolean>;
     saveSocket(userId: number, client: Socket): Promise<void>;
+    getAllSocketUser(): Promise<User[]>;
 }
