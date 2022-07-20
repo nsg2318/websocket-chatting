@@ -26,6 +26,10 @@ let UsersService = class UsersService {
         }
         return user;
     }
+    async saveSocketId(userId, socketId) {
+        const updateResult = await this.usersRepository.updateSocketIdByUserId(userId, socketId);
+        console.log(updateResult);
+    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),

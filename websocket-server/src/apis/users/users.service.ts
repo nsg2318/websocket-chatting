@@ -1,4 +1,6 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { UpdateResult } from "typeorm";
+import { User } from "./entities/user.entity";
 import { UsersRepository } from "./users.repository";
 
 @Injectable()
@@ -17,6 +19,12 @@ export class UsersService {
       user = await this.usersRepository.saveByName(name);
     }
     return user;
+  }
+
+  async saveSocketId(userId: number,socketId: string) {
+    const updateResult: UpdateResult = await this.usersRepository.updateSocketIdByUserId(userId,socketId);
+    console.log(updateResult);
+    
   }
 
 }

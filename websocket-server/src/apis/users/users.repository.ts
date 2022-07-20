@@ -19,8 +19,12 @@ export class UsersRepository {
   async findByName(name: string) {
     return await this.userRepository.findOne({where: {name: name}});
   }
-
+  
   async findById(userId: number): Promise<User>{
     return await this.userRepository.findOne({where: {id: userId}});
+  }
+
+  async updateSocketIdByUserId(userId: number,socketId: string) {
+    return await this.userRepository.update({ id: userId }, {socketId: socketId});
   }
 }

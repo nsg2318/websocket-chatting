@@ -15,11 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessagesGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
+const users_service_1 = require("../../apis/users/users.service");
 const create_message_dto_1 = require("./dto/create-message.dto");
 const messages_service_1 = require("./messages.service");
 let MessagesGateway = class MessagesGateway {
-    constructor(messagesService) {
+    constructor(messagesService, usersService) {
         this.messagesService = messagesService;
+        this.usersService = usersService;
     }
     async create(createMessageDto) {
         const createdMessage = await this.messagesService.create(createMessageDto);
@@ -30,8 +32,12 @@ let MessagesGateway = class MessagesGateway {
         return await this.messagesService.findAllByRoom(roomId);
     }
     async joinRoom(roomId, client) {
+        console.log(client.id);
         await this.messagesService.joinRoom(roomId, client);
         return true;
+    }
+    async saveSocket(userId, client) {
+        return await this.usersService.saveSocketId(userId, client.id);
     }
 };
 __decorate([
@@ -60,12 +66,21 @@ __decorate([
     __metadata("design:paramtypes", [Number, socket_io_1.Socket]),
     __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "joinRoom", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('saveSocketId'),
+    __param(0, (0, websockets_1.MessageBody)('userId')),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, socket_io_1.Socket]),
+    __metadata("design:returntype", Promise)
+], MessagesGateway.prototype, "saveSocket", null);
 MessagesGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({ cors: {
             origin: 'http://localhost:3000',
         },
     }),
-    __metadata("design:paramtypes", [messages_service_1.MessagesService])
+    __metadata("design:paramtypes", [messages_service_1.MessagesService,
+        users_service_1.UsersService])
 ], MessagesGateway);
 exports.MessagesGateway = MessagesGateway;
 //# sourceMappingURL=messages.gateway.js.map

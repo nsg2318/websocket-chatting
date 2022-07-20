@@ -1,5 +1,6 @@
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { UsersService } from 'src/apis/users/users.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { EmitMessageDto } from './dto/emit-message.dto';
 import { MessagesService } from './messages.service';
@@ -12,8 +13,15 @@ export class MessagesGateway {
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly messagesService: MessagesService) {}
+  constructor(
+    private readonly messagesService: MessagesService,
+    private readonly usersService: UsersService,
+    ) {}
 
+    //io.to(socketid).emit('message', 'for your eyes only');
+  //   if (io.sockets.connected[socketid]) {
+  //     io.sockets.connected[socketid].emit('message', 'for your eyes only');
+  // }
   // message 전송
   @SubscribeMessage('createMessage')
   async create(
@@ -33,8 +41,14 @@ export class MessagesGateway {
   //room 입장
   @SubscribeMessage('joinRoom')
   async joinRoom(@MessageBody('roomId') roomId: number, @ConnectedSocket() client: Socket) {
+    console.log(client.id);
     await this.messagesService.joinRoom(roomId, client);
     return true;
+  }
+
+  @SubscribeMessage('saveSocketId')
+  async saveSocket(@MessageBody('userId') userId: number, @ConnectedSocket() client: Socket){
+    return await this.usersService.saveSocketId(userId,client.id);
   }
 
 }

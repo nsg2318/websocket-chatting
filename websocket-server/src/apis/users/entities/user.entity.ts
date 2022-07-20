@@ -14,6 +14,9 @@ export class User extends BaseEntity {
   @Column()
   name: string;
 
+  @Column({nullable: true})
+  socketId: string;
+
   @OneToMany((type) => Message, (message) => message.user)
   messages: Message[];
 

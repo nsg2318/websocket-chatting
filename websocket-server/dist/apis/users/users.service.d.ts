@@ -1,6 +1,8 @@
+import { User } from "./entities/user.entity";
 import { UsersRepository } from "./users.repository";
 export declare class UsersService {
     private readonly usersRepository;
     constructor(usersRepository: UsersRepository);
-    saveIfNotExist(name: string): Promise<import("./entities/user.entity").User>;
+    saveIfNotExist(name: string): Promise<User>;
+    saveSocketId(userId: number, socketId: string): Promise<void>;
 }

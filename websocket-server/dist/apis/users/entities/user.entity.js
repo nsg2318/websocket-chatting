@@ -28,6 +28,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "socketId", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)((type) => message_entity_1.Message, (message) => message.user),
     __metadata("design:type", Array)
 ], User.prototype, "messages", void 0);

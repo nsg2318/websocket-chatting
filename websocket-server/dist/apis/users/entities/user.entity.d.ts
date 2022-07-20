@@ -5,6 +5,7 @@ export declare class User extends BaseEntity {
     id: number;
     createdDate: Date;
     name: string;
+    socketId: string;
     messages: Message[];
     roomUsers: RoomUser[];
 }

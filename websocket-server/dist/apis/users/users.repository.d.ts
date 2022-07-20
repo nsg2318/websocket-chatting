@@ -6,4 +6,5 @@ export declare class UsersRepository {
     saveByName(name: string): Promise<User>;
     findByName(name: string): Promise<User>;
     findById(userId: number): Promise<User>;
+    updateSocketIdByUserId(userId: number, socketId: string): Promise<import("typeorm").UpdateResult>;
 }

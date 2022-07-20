@@ -11,11 +11,17 @@
   const messages = ref([]);
   const messageText = ref('');
   
+
   //room 
+  //참여중인 방 목록 조회
   const rooms = ref([]);
   const roomName = ref('');
+  
+  //참여중인 방 id 
   const roomId = ref('');
-  const joinedRoom = ref(false);
+  //참여 여부
+  const joinedRoom = ref(false);  
+  
   
   //user
   const joined = ref(false);
@@ -23,6 +29,7 @@
   const userName = ref('');
   
   
+  const modalToggle = ref(false);
   //Websocket
   socket.on('message', (message) => {
         messages.value.push(message);
@@ -42,13 +49,18 @@
   }
 
 
-  const joinRoom = () => {
-    socket.emit('joinRoom', { roomId: roomId.value}, response => {
-      joined.value = true;
+  const joinRoom = (id, name) => {
+    roomId.value = id;
+    roomName.value = name;
+    socket.emit('joinRoom', {roomId: roomId.value}, response => {
+      joinedRoom.value = true;
       findMessageByRoom();
     })
   }
 
+  const saveSocketId = () => {
+    socket.emit('saveSocketId', {userId: userId.value});
+  }
   //api
   const user = () => {
     axios.post(`${apiUrl}/user`, {
@@ -56,6 +68,7 @@
     }).then((response) => {
       userId.value = response.data.id;
       joined.value = true;
+      saveSocketId();
       roomListByUserId(userId.value);
     }).catch((error) => console.log(error));
   }
@@ -68,14 +81,13 @@
       });
   }
 
-  const room = () => {
+  const createRoom = () => {
     axios.post(`${apiUrl}/room`, {
       createRoomDto: {
         roomName: roomName.value,
         hostName: userName.value
       }
     }).then((response) => {
-      roomId.value = response.data.id;
       roomListByUserId(userId.value);
       // user();
     }).catch((error) => {
@@ -83,10 +95,13 @@
     });
   }
 
-  const signIn = () => {
-    axios.post(`${apiUrl}/roomUser/${userId}`);
+  const exitRoom = () => {
+    joinedRoom.value = false;
   }
-
+  
+  const roomToggle = () => {
+    modalToggle.value = !modalToggle.value;
+  }
 </script>
 
 <template>
@@ -97,22 +112,37 @@
           <h1 class="green">WebSocket Chatting v1.1.24</h1>
           <form @submit.prevent="user">
           <h3 class="white">닉네임을 입력하세요. 이 작업은 회원가입 또는 로그인을 진행합니다.</h3>
-          <input v-model="userName"/><br><br>
+          <input v-model="userName"/><br>
           <button type="submit">제출</button>
           </form>
         </div>
       </div>
       <div v-else>
         <div class="room-container">
-          ==========참여중인 채팅방 목록 ==========
+          <div class="roomHeader">=============================== 참여중인 채팅방 목록 ================================</div><br>
+          <div class="roomList">[방번호]</div>
+          <div class="roomList">[방이름]</div>
+          <div class="hostList">[방주인]</div>
           <div v-for="room in rooms">
-            [{{room.id}}] [{{room.room.name}}] [{{room.room.hostName}}]
-          </div>
-          <form @submit.prevent="room">
-          <h3 class="white">Room 생성하기. Room 이름을 입력하세요.</h3>
+           <div class = "roomList">[{{room.id}}]</div>
+           <div class = "roomList">[{{room.room.name}}]</div>
+           <div class = "hostList">[{{room.room.hostName}}]</div>
+           <button v-on:click="joinRoom(room.id,room.room.name)">입장하기</button>
+          </div><br><br><br>
+          <form @submit.prevent="createRoom">
           <input v-model="roomName"/><br>
+          <h3 class="white">Room 생성하기. Room 이름을 입력하세요.</h3>
+          <br>
           <button type="submit">제출</button>
+          <button @click="roomToggle()" type="button">
+          모달창 띄우기
+          </button>
           </form>
+
+          <div v-if="!modalToggle">
+            <h5> 하이루 . </h5>
+            <button @click="roomToggle()" type="button">확인</button>
+          </div>
 
         </div>
       </div>
@@ -128,6 +158,7 @@
         <form @submit.prevent="sendMessage">
           <input v-model="messageText"/> <br>
           <button type="submit">전송</button>
+          <button v-on:click="exitRoom()">나가기</button>
         </form>
       </div>
     </div>
@@ -140,6 +171,22 @@
 .chat{
   padding: 20px;
   height: 100vh;
+  width: 300vh;
+}
+
+.roomHeader{
+  margin: 15px 0px 10px;
+  position: a;
+  border: none;
+  display: inline-block;
+  padding: 0px 0px 0px 0px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  font-size: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
 }
 
 .chat-container{
@@ -152,6 +199,37 @@
   flex: 1;
 }
 
+.roomList{
+  margin: 15px 0px 10px;
+  width: 200px;
+  position: a;
+  border: none;
+  display: inline-block;
+  padding: 0px 0px 0px 0px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  font-size: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.hostList{
+  margin: 15px 0px 10px;
+  position:relative;
+  border: none;
+  display: inline-block;
+  padding: 0px 300px 0px 0px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  font-size: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+  text-align: right;
+}
 input {
   width: 200px;
   height: 32px;
@@ -164,7 +242,7 @@ input {
 }
 
 button {
-  margin: 15px 0px 10px;
+  margin: 15px 10px 10px;
   position: relative;
   border: none;
   display: inline-block;
