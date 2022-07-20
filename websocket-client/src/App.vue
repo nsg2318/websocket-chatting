@@ -20,7 +20,7 @@
   //참여중인 방 id 
   const roomId = ref('');
   //참여 여부
-  const joinedRoom = ref(false);  
+  const joinedRoom = ref(false);
   
   
   //user
@@ -31,6 +31,8 @@
   
   const modalToggle = ref(false);
   const socketUser = ref([]);
+  const selectedSocket = ref([]);
+
   //Websocket
   socket.on('message', (message) => {
         messages.value.push(message);
@@ -51,7 +53,9 @@
 //현재 연결이 성립된 소켓id로 유저name리턴
   const getAllSocketUser = () => {
    socket.emit('getAllSocketUser', {}, response => {
+      socketUser.value;
       socketUser.value = response;
+      console.log(socketUser.value);
       modalToggle.value = !modalToggle.value;
     });
   }
@@ -88,6 +92,10 @@
       });
   }
 
+  const temp_show = () => {
+    console.log(selectedSocket.value);
+  }
+
   const createRoom = () => {
     axios.post(`${apiUrl}/room`, {
       createRoomDto: {
@@ -118,7 +126,7 @@
     <div v-if="!joinedRoom">
       <div v-if="!joined">
         <div class="identify">
-          <h1 class="green">WebSocket Chatting v1.1.24</h1>
+          <h1 class="green">WebSocket Chatting v2.1.3</h1>
           <form @submit.prevent="user">
           <h3 class="white">닉네임을 입력하세요. 이 작업은 회원가입 또는 로그인을 진행합니다.</h3>
           <input v-model="userName"/><br>
@@ -149,13 +157,19 @@
           </form>
           <div v-if="modalToggle">
             <div class="modal_box">
-              <h5> 현재 연결된 유저목록 </h5>
+              <h5> 현재 연결된 유저목록 </h5><br>
               <div class="modal_list">
                 <div v-for="user in socketUser">
-                {{user.name}}
+                  {{user.name}}
                 </div>
               </div>
-              <button @click="roomToggle()" type="button">만들기</button>
+              <!-- todo: 체크된 유저명 기반으로 방만들기 -->
+              <div class="roomName">유저추가</div>
+              <input v-model="roomName"/>
+              <div class="userName">
+                  추가된 유저목록 : {{selectedSocket.value}}
+                </div>
+              <button @click="temp_show()" type="button">만들기</button>
               <button @click="roomToggle()" type="button">취소</button>
             </div>
           </div>
@@ -186,8 +200,8 @@
 
 .chat{
   padding: 20px;
-  height: 100vh;
-  width: 300vh;
+  height: 200vh;
+  width: 200vh;
 }
 
 .roomHeader{
@@ -215,31 +229,47 @@
   flex: 1;
 }
 
+.roomName{
+  font-size: 25px;
+  color: white;
+}
  .modal_box {
-  position: fixed;
+  margin: 15px 0px 10px;
+  position: relative;
   display: block;
   z-index: 200;
   top: 20%;
-  left: 30%;
-  width: 40%;
+  left: 10%;
+  width: 30%;
   background: grey;
   padding: 1rem;
-  border: 1px solid #ccc;
+  border: 4px solid #ccc;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   font-size: 30px;
-  color: white;
+  color: black;
   font-weight: bold;
 }
 
 .modal_list{
+  width: 250px;
   position: relative;
-  font-size: 20px;
+  border: none;
+  font-size: 25px;
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.model_list_checkbox {
+  transform: scale(0.8);
+  padding: 0px 0px 0px 150px;
+  top: -35px;
 }
 
 .roomList{
   margin: 15px 0px 10px;
   width: 200px;
-  position: a;
+  position: relative;
   border: none;
   display: inline-block;
   padding: 0px 0px 0px 0px;
@@ -267,6 +297,7 @@
   transition: 0.25s;
   text-align: right;
 }
+
 input {
   width: 200px;
   height: 32px;
