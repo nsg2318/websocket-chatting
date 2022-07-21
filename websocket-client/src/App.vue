@@ -125,6 +125,7 @@
 
   const exitRoom = () => {
     joinedRoom.value = false;
+    // emit, delete api
   }
   
   const roomToggle = () => {
@@ -139,7 +140,7 @@
     <div v-if="!joinedRoom">
       <div v-if="!joined">
         <div class="identify">
-          <h1 class="green">WebSocket Chatting v2.1.3</h1>
+          <h1 class="green">WebSocket Chatting v2.19</h1>
           <form @submit.prevent="user">
           <h3 class="white">닉네임을 입력하세요. 이 작업은 회원가입 또는 로그인을 진행합니다.</h3>
           <input v-model="userName"/><br>
@@ -155,10 +156,10 @@
           <div class="roomList">[방이름]</div>
           <div class="hostList">[방주인]</div>
           <div v-for="room in rooms">
-           <div class = "roomList">[{{room.id}}]</div>
+           <div class = "roomList">[{{room.room.id}}]</div>
            <div class = "roomList">[{{room.room.name}}]</div>
            <div class = "hostList">[{{room.room.hostName}}]</div>
-           <button v-on:click="entranceRoom(room.id,room.room.name)">입장하기</button>
+           <button v-on:click="entranceRoom(room.room.id,room.room.name)">입장하기</button>
           </div><br><br><br>
           <button v-on:click="getAllSocketUser()" type="button">
           채팅방 생성하기
@@ -171,7 +172,6 @@
                   <button v-on:click="addRoomUser(user.name)">{{user.name}}</button>
                 </div>
               </div>
-              <!-- todo: 체크된 유저명 기반으로 방만들기 -->
               <div class="userName" v-bind:selectedSocket="[selectedSocket.value]">
                   <h6>추가된 유저목록 : {{selectedSocket}}</h6>
               </div>

@@ -28,6 +28,7 @@ export class MessagesGateway {
   async create(
     @MessageBody() createMessageDto: CreateMessageDto,
     ) {
+      console.log(createMessageDto);
     const createdMessage: EmitMessageDto = await this.messagesService.create(createMessageDto);
     this.server.to(createMessageDto.roomId.toString()).emit('message', createdMessage);
     return createdMessage;
@@ -51,7 +52,7 @@ export class MessagesGateway {
     });
     return true; 
   }
- // todo : 방이름 방장 제외 채팅방 내에서 안뜸, 채팅 안됨
+  
   @SubscribeMessage('justJoin')
   async justJoin(@MessageBody('roomId') roomId: string, @ConnectedSocket() client: Socket){
     await this.messagesService.joinRoom(roomId, client);
