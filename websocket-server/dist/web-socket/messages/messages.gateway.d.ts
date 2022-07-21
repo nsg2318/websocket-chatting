@@ -14,8 +14,8 @@ export declare class MessagesGateway {
     constructor(messagesService: MessagesService, usersService: UsersService, roomsService: RoomsService);
     create(createMessageDto: CreateMessageDto): Promise<EmitMessageDto>;
     findAllByRoom(roomId: number): Promise<EmitMessageDto[]>;
-    createRoom(dto: CreateRoomGatewayDto, client: Socket): Promise<void>;
-    justJoin(roomId: string, client: Socket): Promise<void>;
+    createRoom(dto: CreateRoomGatewayDto, client: Socket): Promise<boolean>;
+    justJoin(roomId: string, client: Socket): Promise<boolean>;
     saveSocket(userId: number, client: Socket): Promise<void>;
     getAllSocketUser(userName: string): Promise<User[]>;
 }

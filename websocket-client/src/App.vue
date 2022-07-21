@@ -34,8 +34,10 @@
         messages.value.push(message);
       })
 
-  socket.on('requestJoinRoom',(roomId) =>{
-    justJoin(roomId);
+  socket.on('requestJoinRoom',(id) =>{
+    console.log('requestJoinRoom 이벤트 수신 roomId = ' + id);
+    roomId.value = id;
+    justJoin(id);
   })
 
   const findMessageByRoom = () => {
@@ -65,11 +67,12 @@
       participants: selectedSocket.value,
     }
     socket.emit('createRoom', {dto: dto}, response => {
+      modalToggle.value = !modalToggle.value;
     });
   }
-  const justJoin = (roomId) => {
-    socket.emit('justJoin',{roomId: roomId}, response => {
-      roomListByUserId();
+  const justJoin = (id) => {
+    socket.emit('justJoin',{roomId: id}, response => {
+      roomListByUserId(userId.value);
     });
   }
   const entranceRoom = (id) => {
@@ -110,6 +113,7 @@
   }
 
   const roomListByUserId = (userId) => {
+    console.log('roomListByUserId 이벤트 수신 userId = ' + userId);
     axios.get(`${apiUrl}/roomUser/${userId}`,{})
       .then((response) => {
         rooms.value = response.data;
@@ -117,7 +121,6 @@
   }
 
   const addRoomUser = (name) => {
-    console.log('name :' + name);
     const index = selectedSocket.value.indexOf(name); 
     if(index === -1){
       selectedSocket.value.push(name);  
@@ -156,6 +159,7 @@
       </div>
       <div v-else>
         <div class="room-container">
+          <div class="roomHeader" v-bind:userName="[userName.value]">유저명 : {{userName}}</div><br>
           <div class="roomHeader">=============================== 참여중인 채팅방 목록 ================================</div><br>
           <div class="roomList">[방번호]</div>
           <div class="roomList">[방이름]</div>
