@@ -7,4 +7,5 @@ export declare class UsersService {
     saveSocketId(userId: number, socketId: string): Promise<void>;
     findUserBySocketId(userName: string, sockets: Set<string>): Promise<User[]>;
     findSocketIdByUserId(userId: number): Promise<string>;
+    findSocketIdArrayByUserName(userNameList: string[]): Promise<string[]>;
 }

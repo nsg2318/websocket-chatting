@@ -5,6 +5,7 @@ import { RoomsRepository } from 'src/apis/rooms/rooms.repository';
 import { User } from 'src/apis/users/entities/user.entity';
 import { UsersRepository } from 'src/apis/users/users.repository';
 import { CreateMessageDto } from './dto/create-message.dto';
+import { CreateRoomGatewayDto } from './dto/create-room.dto';
 import { EmitMessageDto } from './dto/emit-message.dto';
 import { Message } from './entities/message.entity';
 import { MessagesRepository } from './meesages.repository';
@@ -26,7 +27,7 @@ export class MessagesService {
     return emitResult;
   }
 
-  async joinRoom(roomId: number, client: Socket) {
+  async joinRoom(roomId: string, client: Socket) { 
    await client.join(roomId.toString());
   }
 

@@ -10,6 +10,6 @@ export declare class MessagesService {
     private readonly roomRepository;
     constructor(messagesRepository: MessagesRepository, usersRepository: UsersRepository, roomRepository: RoomsRepository);
     findAllByRoom(roomId: number): Promise<EmitMessageDto[]>;
-    joinRoom(roomId: number, client: Socket): Promise<void>;
+    joinRoom(roomId: string, client: Socket): Promise<void>;
     create(createMessageDto: CreateMessageDto): Promise<EmitMessageDto>;
 }

@@ -1,10 +1,11 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { CreateRoomGatewayDto } from "src/web-socket/messages/dto/create-room.dto";
 import { User } from "./entities/user.entity";
 import { UsersRepository } from "./users.repository";
 
 @Injectable()
 export class UsersService {
-
+  
   constructor(private readonly usersRepository: UsersRepository){}
 
 
@@ -44,4 +45,15 @@ export class UsersService {
     const user: User = await this.usersRepository.findById(userId);
     return user.socketId;
   }
+
+  async findSocketIdArrayByUserName(userNameList: string[]) {
+    let socketIdArray: string[] = [];
+    for(const name of userNameList){
+      const user: User = await this.usersRepository.findByName(name);
+      socketIdArray.push(user.socketId);
+    }
+    return socketIdArray;
+
+  }
+  
 }

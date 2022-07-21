@@ -34,6 +34,10 @@
         messages.value.push(message);
       })
 
+  socket.on('requestJoinRoom',(roomId) =>{
+    justJoin(roomId);
+  })
+
   const findMessageByRoom = () => {
     socket.emit('findAllMessageByRoomId',{roomId: roomId.value},response => {
       messages.value = response;
@@ -54,14 +58,41 @@
     });
   }
 
-  const joinRoom = (id, name) => {
-    roomId.value = id;
-    roomName.value = name;
-    socket.emit('joinRoom', {roomId: roomId.value}, response => {
-      joinedRoom.value = true;
-      findMessageByRoom();
+  const createRoom = () => {
+    const dto = {
+      roomName: roomName.value,
+      hostName: userName.value,
+      participants: selectedSocket.value,
+    }
+    socket.emit('createRoom', {dto: dto}, response => {
     });
   }
+  const justJoin = (roomId) => {
+    socket.emit('justJoin',{roomId: roomId}, response => {
+      roomListByUserId();
+    });
+  }
+  const entranceRoom = (id) => {
+    roomId.value = id;
+    joinedRoom.value = true;
+    findMessageByRoom();
+  };
+  // const createRoom = () => {
+  //   axios.post(`${apiUrl}/room`, {
+  //     createRoomDto: {
+  //       roomName: roomName.value,
+  //       hostName: userName.value,
+  //       participants: selectedSocket.value,
+  //     }
+  //   }).then((response) => {
+  //     joinedRoom.value = true;
+  //     console.log(response);
+  //   }).catch((error) => {
+  //     alert(error);
+  //   });
+  // }
+
+
 
   const saveSocketId = (id) => {
     socket.emit('saveSocketId',{userId: id});
@@ -93,21 +124,6 @@
     } else {
       selectedSocket.value.splice(index,1);
     }
-  }
-
-  const createRoom = () => {
-    axios.post(`${apiUrl}/room`, {
-      createRoomDto: {
-        roomName: roomName.value,
-        hostName: userName.value,
-        participants: selectedSocket.value,
-      }
-    }).then((response) => {
-      joinedRoom.value = true;
-      console.log(response);
-    }).catch((error) => {
-      alert(error);
-    });
   }
 
   const toList = () => {
@@ -148,7 +164,7 @@
            <div class = "roomList">[{{room.id}}]</div>
            <div class = "roomList">[{{room.room.name}}]</div>
            <div class = "hostList">[{{room.room.hostName}}]</div>
-           <button v-on:click="joinRoom(room.id,room.room.name)">입장하기</button>
+           <button v-on:click="entranceRoom(room.id)">입장하기</button>
           </div><br><br><br>
           <!-- <form @submit.prevent="createRoom"> -->
           <!-- <input v-model="roomName"/><br> -->

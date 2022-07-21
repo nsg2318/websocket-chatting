@@ -15,13 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessagesGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
+const rooms_service_1 = require("../../apis/rooms/rooms.service");
 const users_service_1 = require("../../apis/users/users.service");
 const create_message_dto_1 = require("./dto/create-message.dto");
+const create_room_dto_1 = require("./dto/create-room.dto");
 const messages_service_1 = require("./messages.service");
 let MessagesGateway = class MessagesGateway {
-    constructor(messagesService, usersService) {
+    constructor(messagesService, usersService, roomsService) {
         this.messagesService = messagesService;
         this.usersService = usersService;
+        this.roomsService = roomsService;
     }
     async create(createMessageDto) {
         const createdMessage = await this.messagesService.create(createMessageDto);
@@ -31,10 +34,16 @@ let MessagesGateway = class MessagesGateway {
     async findAllByRoom(roomId) {
         return await this.messagesService.findAllByRoom(roomId);
     }
-    async joinRoom(roomId, client) {
-        console.log(client.id);
+    async createRoom(dto, client) {
+        const createdRoom = await this.roomsService.save(dto);
+        let participants = dto.participants;
+        participants.push(dto.hostName);
+        const socketIds = await this.usersService.findSocketIdArrayByUserName(participants);
+        socketIds.map(socketId => this.server.to(socketId).emit('requestJoinRoom', createdRoom.id));
+    }
+    async justJoin(roomId, client) {
+        console.log(`clientid : ${client.id}, roomId : ${roomId}`);
         await this.messagesService.joinRoom(roomId, client);
-        return true;
     }
     async saveSocket(userId, client) {
         return await this.usersService.saveSocketId(userId, client.id);
@@ -64,13 +73,21 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "findAllByRoom", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('joinRoom'),
+    (0, websockets_1.SubscribeMessage)('createRoom'),
+    __param(0, (0, websockets_1.MessageBody)('dto')),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_room_dto_1.CreateRoomGatewayDto, socket_io_1.Socket]),
+    __metadata("design:returntype", Promise)
+], MessagesGateway.prototype, "createRoom", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('justJoin'),
     __param(0, (0, websockets_1.MessageBody)('roomId')),
     __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, socket_io_1.Socket]),
+    __metadata("design:paramtypes", [String, socket_io_1.Socket]),
     __metadata("design:returntype", Promise)
-], MessagesGateway.prototype, "joinRoom", null);
+], MessagesGateway.prototype, "justJoin", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('saveSocketId'),
     __param(0, (0, websockets_1.MessageBody)('userId')),
@@ -92,7 +109,8 @@ MessagesGateway = __decorate([
         },
     }),
     __metadata("design:paramtypes", [messages_service_1.MessagesService,
-        users_service_1.UsersService])
+        users_service_1.UsersService,
+        rooms_service_1.RoomsService])
 ], MessagesGateway);
 exports.MessagesGateway = MessagesGateway;
 //# sourceMappingURL=messages.gateway.js.map

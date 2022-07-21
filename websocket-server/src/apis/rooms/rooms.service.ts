@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { CreateRoomGatewayDto } from "src/web-socket/messages/dto/create-room.dto";
 import { RoomsUsersRepository } from "../roomsusers/roomsUsers.repository";
 import { User } from "../users/entities/user.entity";
 import { UsersRepository } from "../users/users.repository";
-import { CreateRoomDto } from "./dto/create-room.dto";
 import { Room } from "./entities/room.entity";
 import { RoomsRepository } from "./rooms.repository";
 
@@ -15,7 +15,7 @@ export class RoomsService {
         private readonly roomsUsersRepository: RoomsUsersRepository
     ){}
 
-    async save(createRoomDto: CreateRoomDto){
+    async save(createRoomDto: CreateRoomGatewayDto){
         const {roomName, hostName, participants} = createRoomDto;
         if(!roomName){
             throw new UnauthorizedException('방이름을 입력해주세요.'); 

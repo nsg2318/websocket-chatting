@@ -1,8 +1,11 @@
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { Room } from 'src/apis/rooms/entities/room.entity';
+import { RoomsService } from 'src/apis/rooms/rooms.service';
 import { User } from 'src/apis/users/entities/user.entity';
 import { UsersService } from 'src/apis/users/users.service';
 import { CreateMessageDto } from './dto/create-message.dto';
+import { CreateRoomGatewayDto } from './dto/create-room.dto';
 import { EmitMessageDto } from './dto/emit-message.dto';
 import { MessagesService } from './messages.service';
 
@@ -17,12 +20,9 @@ export class MessagesGateway {
   constructor(
     private readonly messagesService: MessagesService,
     private readonly usersService: UsersService,
+    private readonly roomsService: RoomsService,
     ) {}
 
-    //io.to(socketid).emit('message', 'for your eyes only');
-  //   if (io.sockets.connected[socketid]) {
-  //     io.sockets.connected[socketid].emit('message', 'for your eyes only');
-  // }
   // message 전송
   @SubscribeMessage('createMessage')
   async create(
@@ -40,11 +40,20 @@ export class MessagesGateway {
   }
 
   //room 입장
-  @SubscribeMessage('joinRoom')
-  async joinRoom(@MessageBody('roomId') roomId: number, @ConnectedSocket() client: Socket) {
-    console.log(client.id);
+  @SubscribeMessage('createRoom')
+  async createRoom(@MessageBody('dto') dto: CreateRoomGatewayDto, @ConnectedSocket() client: Socket) {
+    const createdRoom: Room = await this.roomsService.save(dto);
+    let participants = dto.participants;
+    participants.push(dto.hostName);
+    const socketIds: string[] = await this.usersService.findSocketIdArrayByUserName(participants);
+    socketIds.map(socketId => this.server.to(socketId).emit('requestJoinRoom',createdRoom.id));
+    
+  }
+
+  @SubscribeMessage('justJoin')
+  async justJoin(@MessageBody('roomId') roomId: string, @ConnectedSocket() client: Socket){
+    console.log(`clientid : ${client.id}, roomId : ${roomId}`);
     await this.messagesService.joinRoom(roomId, client);
-    return true;
   }
 
   @SubscribeMessage('saveSocketId')

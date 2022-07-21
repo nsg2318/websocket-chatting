@@ -47,6 +47,14 @@ let UsersService = class UsersService {
         const user = await this.usersRepository.findById(userId);
         return user.socketId;
     }
+    async findSocketIdArrayByUserName(userNameList) {
+        let socketIdArray = [];
+        for (const name of userNameList) {
+            const user = await this.usersRepository.findByName(name);
+            socketIdArray.push(user.socketId);
+        }
+        return socketIdArray;
+    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
