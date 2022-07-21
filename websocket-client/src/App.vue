@@ -14,7 +14,8 @@
 
   //room 
   const rooms = ref([]);
-  const roomName = ref('');
+  const scheduledRoomName = ref('');
+  const joinedRoomName = ref('');
   const roomId = ref('');
   const joinedRoom = ref(false);
   
@@ -62,11 +63,11 @@
 
   const createRoom = () => {
     
-    if((selectedSocket.value.length === 0) || (roomName.value == '')) {
+    if((selectedSocket.value.length === 0) || (scheduledRoomName.value == '')) {
       alert('자신을 제외한 참여자가 최소 1명은 존재해야합니다. 또는 방 이름을 입력하세요. ');
     } else {
       const dto = {
-        roomName: roomName.value,
+        roomName: scheduledRoomName.value,
         hostName: userName.value,
         participants: selectedSocket.value,
       }
@@ -80,8 +81,9 @@
       roomListByUserId(userId.value);
     });
   }
-  const entranceRoom = (id) => {
+  const entranceRoom = (id, joinedRoomNm) => {
     roomId.value = id;
+    joinedRoomName.value = joinedRoomNm;
     joinedRoom.value = true;
     findMessageByRoom();
   };
@@ -102,7 +104,6 @@
   }
 
   const roomListByUserId = (userId) => {
-    console.log('roomListByUserId 이벤트 수신 userId = ' + userId);
     axios.get(`${apiUrl}/roomUser/${userId}`,{})
       .then((response) => {
         rooms.value = response.data;
@@ -157,7 +158,7 @@
            <div class = "roomList">[{{room.id}}]</div>
            <div class = "roomList">[{{room.room.name}}]</div>
            <div class = "hostList">[{{room.room.hostName}}]</div>
-           <button v-on:click="entranceRoom(room.id)">입장하기</button>
+           <button v-on:click="entranceRoom(room.id,room.room.name)">입장하기</button>
           </div><br><br><br>
           <button v-on:click="getAllSocketUser()" type="button">
           채팅방 생성하기
@@ -176,7 +177,7 @@
               </div>
 
               <div class="roomName">방 제목 설정</div>
-              <input v-model="roomName"/>
+              <input v-model="scheduledRoomName"/>
               <button @click="createRoom()" type="button">만들기</button>
               <button @click="roomToggle()" type="button">취소</button>
             </div>
@@ -186,8 +187,8 @@
       </div>
     </div>
     <div class="chat-container" v-else>
-      <div class="messages-container" v-bind:roomName="[roomName.value]" >
-        ========채팅방이 생성되었습니다. 방이름 : {{roomName}}========
+      <div class="messages-container" v-bind:joinedRoomName="[joinedRoomName.value]" >
+        ========채팅방이 생성되었습니다. 방이름 : {{joinedRoomName}}========
         <div v-for="message in messages">
           [{{message.customDate}}][{{ message.userName }}] : {{message.text}}
         </div>
