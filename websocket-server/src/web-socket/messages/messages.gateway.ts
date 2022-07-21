@@ -47,15 +47,13 @@ export class MessagesGateway {
     participants.push(dto.hostName);
     const socketIds: string[] = await this.usersService.findSocketIdArrayByUserName(participants);
     socketIds.map(socketId => {
-      console.log(`소켓ID : ${socketId}, requestJoinRoom 이벤트발생. createdRoom.id = ${createdRoom.id}` );
       this.server.to(socketId).emit('requestJoinRoom',createdRoom.id);
     });
     return true; 
   }
-
+ // todo : 방이름 방장 제외 채팅방 내에서 안뜸, 채팅 안됨
   @SubscribeMessage('justJoin')
   async justJoin(@MessageBody('roomId') roomId: string, @ConnectedSocket() client: Socket){
-    console.log(`소켓ID : ${client.id}, justJoin 이벤트수신. roomId = ${roomId}` );
     await this.messagesService.joinRoom(roomId, client);
     return true;
   }

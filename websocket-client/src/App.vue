@@ -61,14 +61,19 @@
   }
 
   const createRoom = () => {
-    const dto = {
-      roomName: roomName.value,
-      hostName: userName.value,
-      participants: selectedSocket.value,
+    
+    if((selectedSocket.value.length === 0) || (roomName.value == '')) {
+      alert('자신을 제외한 참여자가 최소 1명은 존재해야합니다. 또는 방 이름을 입력하세요. ');
+    } else {
+      const dto = {
+        roomName: roomName.value,
+        hostName: userName.value,
+        participants: selectedSocket.value,
+      }
+      socket.emit('createRoom', {dto: dto}, response => {
+        modalToggle.value = !modalToggle.value;
+      });
     }
-    socket.emit('createRoom', {dto: dto}, response => {
-      modalToggle.value = !modalToggle.value;
-    });
   }
   const justJoin = (id) => {
     socket.emit('justJoin',{roomId: id}, response => {
@@ -80,23 +85,7 @@
     joinedRoom.value = true;
     findMessageByRoom();
   };
-  // const createRoom = () => {
-  //   axios.post(`${apiUrl}/room`, {
-  //     createRoomDto: {
-  //       roomName: roomName.value,
-  //       hostName: userName.value,
-  //       participants: selectedSocket.value,
-  //     }
-  //   }).then((response) => {
-  //     joinedRoom.value = true;
-  //     console.log(response);
-  //   }).catch((error) => {
-  //     alert(error);
-  //   });
-  // }
-
-
-
+  
   const saveSocketId = (id) => {
     socket.emit('saveSocketId',{userId: id});
   }
@@ -109,7 +98,7 @@
       joined.value = true;
       roomListByUserId(userId.value);
       saveSocketId(userId.value);
-    }).catch((error) => console.log(error));
+    }).catch((error) => alert(error.messageText));
   }
 
   const roomListByUserId = (userId) => {
@@ -170,11 +159,6 @@
            <div class = "hostList">[{{room.room.hostName}}]</div>
            <button v-on:click="entranceRoom(room.id)">입장하기</button>
           </div><br><br><br>
-          <!-- <form @submit.prevent="createRoom"> -->
-          <!-- <input v-model="roomName"/><br> -->
-          <!-- <h3 class="white">Room 생성하기. Room 이름을 입력하세요.</h3> -->
-          <!-- <br> -->
-          <!-- <button type="submit">제출</button> -->
           <button v-on:click="getAllSocketUser()" type="button">
           채팅방 생성하기
           </button>
@@ -191,7 +175,7 @@
                   <h6>추가된 유저목록 : {{selectedSocket}}</h6>
               </div>
 
-              <div class="roomName">유저추가</div>
+              <div class="roomName">방 제목 설정</div>
               <input v-model="roomName"/>
               <button @click="createRoom()" type="button">만들기</button>
               <button @click="roomToggle()" type="button">취소</button>

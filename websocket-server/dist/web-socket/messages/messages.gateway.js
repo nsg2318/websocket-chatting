@@ -40,13 +40,11 @@ let MessagesGateway = class MessagesGateway {
         participants.push(dto.hostName);
         const socketIds = await this.usersService.findSocketIdArrayByUserName(participants);
         socketIds.map(socketId => {
-            console.log(`소켓ID : ${socketId}, requestJoinRoom 이벤트발생. createdRoom.id = ${createdRoom.id}`);
             this.server.to(socketId).emit('requestJoinRoom', createdRoom.id);
         });
         return true;
     }
     async justJoin(roomId, client) {
-        console.log(`소켓ID : ${client.id}, justJoin 이벤트수신. roomId = ${roomId}`);
         await this.messagesService.joinRoom(roomId, client);
         return true;
     }
