@@ -7,6 +7,7 @@ import { RoomUser } from "./entities/roomuser.entity";
 
 @Injectable()
 export class RoomsUsersRepository {
+  
   constructor(
     @InjectRepository(RoomUser)
     private roomUserRepository: Repository<RoomUser>,
@@ -20,5 +21,9 @@ export class RoomsUsersRepository {
 
     const roomUser = this.roomUserRepository.create({user: user,room: room});
     return await this.roomUserRepository.save(roomUser);
+  }
+
+  exitRoom(user: User, room: Room) {
+    this.roomUserRepository.delete({user: user, room: room});
   }
 }

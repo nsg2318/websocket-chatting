@@ -53,9 +53,9 @@ export class MessagesGateway {
   }
 
   @SubscribeMessage('getAllSocketUser')
-  async getAllSocketUser(){
+  async getAllSocketUser(@MessageBody('userName') userName: string){
     const sockets: Set<string> = await this.server.allSockets();
-    const users: User[] = await this.usersService.findUserBySocketId(sockets);
+    const users: User[] = await this.usersService.findUserBySocketId(userName, sockets);
     return users;
   }
 

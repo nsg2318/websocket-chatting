@@ -13,13 +13,9 @@
   
 
   //room 
-  //참여중인 방 목록 조회
   const rooms = ref([]);
   const roomName = ref('');
-  
-  //참여중인 방 id 
   const roomId = ref('');
-  //참여 여부
   const joinedRoom = ref(false);
   
   
@@ -50,12 +46,10 @@
     })
   }
 
-//현재 연결이 성립된 소켓id로 유저name리턴
+//현재 연결이 수립된 소켓id로 유저name리턴
   const getAllSocketUser = () => {
-   socket.emit('getAllSocketUser', {}, response => {
-      socketUser.value;
+   socket.emit('getAllSocketUser', {userName: userName.value}, response => {
       socketUser.value = response;
-      console.log(socketUser.value);
       modalToggle.value = !modalToggle.value;
     });
   }
@@ -88,26 +82,36 @@
     axios.get(`${apiUrl}/roomUser/${userId}`,{})
       .then((response) => {
         rooms.value = response.data;
-        // console.log(`rooms.value : ${rooms.value}`);
       });
   }
 
-  const temp_show = () => {
-    console.log(selectedSocket.value);
+  const addRoomUser = (name) => {
+    console.log('name :' + name);
+    const index = selectedSocket.value.indexOf(name); 
+    if(index === -1){
+      selectedSocket.value.push(name);  
+    } else {
+      selectedSocket.value.splice(index,1);
+    }
   }
 
   const createRoom = () => {
     axios.post(`${apiUrl}/room`, {
       createRoomDto: {
         roomName: roomName.value,
-        hostName: userName.value
+        hostName: userName.value,
+        participants: selectedSocket.value,
       }
     }).then((response) => {
-      roomListByUserId(userId.value);
-      // user();
+      joinedRoom.value = true;
+      console.log(response);
     }).catch((error) => {
       alert(error);
     });
+  }
+
+  const toList = () => {
+    joinedRoom.value = false;
   }
 
   const exitRoom = () => {
@@ -146,7 +150,7 @@
            <div class = "hostList">[{{room.room.hostName}}]</div>
            <button v-on:click="joinRoom(room.id,room.room.name)">입장하기</button>
           </div><br><br><br>
-          <form @submit.prevent="createRoom">
+          <!-- <form @submit.prevent="createRoom"> -->
           <!-- <input v-model="roomName"/><br> -->
           <!-- <h3 class="white">Room 생성하기. Room 이름을 입력하세요.</h3> -->
           <!-- <br> -->
@@ -154,22 +158,22 @@
           <button v-on:click="getAllSocketUser()" type="button">
           채팅방 생성하기
           </button>
-          </form>
           <div v-if="modalToggle">
             <div class="modal_box">
               <h5> 현재 연결된 유저목록 </h5><br>
               <div class="modal_list">
                 <div v-for="user in socketUser">
-                  {{user.name}}
+                  <button v-on:click="addRoomUser(user.name)">{{user.name}}</button>
                 </div>
               </div>
               <!-- todo: 체크된 유저명 기반으로 방만들기 -->
+              <div class="userName" v-bind:selectedSocket="[selectedSocket.value]">
+                  <h6>추가된 유저목록 : {{selectedSocket}}</h6>
+              </div>
+
               <div class="roomName">유저추가</div>
               <input v-model="roomName"/>
-              <div class="userName">
-                  추가된 유저목록 : {{selectedSocket.value}}
-                </div>
-              <button @click="temp_show()" type="button">만들기</button>
+              <button @click="createRoom()" type="button">만들기</button>
               <button @click="roomToggle()" type="button">취소</button>
             </div>
           </div>
@@ -188,6 +192,7 @@
         <form @submit.prevent="sendMessage">
           <input v-model="messageText"/> <br>
           <button type="submit">전송</button>
+          <button v-on:click="toList()">방목록</button>
           <button v-on:click="exitRoom()">나가기</button>
         </form>
       </div>
@@ -200,7 +205,7 @@
 
 .chat{
   padding: 20px;
-  height: 200vh;
+  height: 100vh;
   width: 200vh;
 }
 

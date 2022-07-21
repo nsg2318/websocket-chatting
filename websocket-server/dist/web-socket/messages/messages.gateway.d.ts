@@ -13,5 +13,5 @@ export declare class MessagesGateway {
     findAllByRoom(roomId: number): Promise<EmitMessageDto[]>;
     joinRoom(roomId: number, client: Socket): Promise<boolean>;
     saveSocket(userId: number, client: Socket): Promise<void>;
-    getAllSocketUser(): Promise<User[]>;
+    getAllSocketUser(userName: string): Promise<User[]>;
 }

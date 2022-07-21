@@ -16,7 +16,7 @@ export class RoomsService {
     ){}
 
     async save(createRoomDto: CreateRoomDto){
-        const {roomName, hostName} = createRoomDto;
+        const {roomName, hostName, participants} = createRoomDto;
         if(!roomName){
             throw new UnauthorizedException('방이름을 입력해주세요.'); 
         }
@@ -27,10 +27,16 @@ export class RoomsService {
             throw new UnauthorizedException('이미 존재하는 방이름입니다.');
         }
 
-        // //방 생성과 동시에 host는 입장
         const createdRoom: Room = await this.roomsRepository.save(roomName,hostName);
         const user: User = await this.usersRepository.findByName(hostName);
         await this.roomsUsersRepository.save(user,createdRoom);
+
+        // todo : Promise.all
+        for(const participant of participants) {
+            const user: User = await this.usersRepository.findByName(participant);
+            await this.roomsUsersRepository.save(user,createdRoom);
+        }
+
         return createdRoom;
 
     }

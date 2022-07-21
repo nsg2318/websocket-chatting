@@ -39,9 +39,9 @@ let MessagesGateway = class MessagesGateway {
     async saveSocket(userId, client) {
         return await this.usersService.saveSocketId(userId, client.id);
     }
-    async getAllSocketUser() {
+    async getAllSocketUser(userName) {
         const sockets = await this.server.allSockets();
-        const users = await this.usersService.findUserBySocketId(sockets);
+        const users = await this.usersService.findUserBySocketId(userName, sockets);
         return users;
     }
 };
@@ -81,8 +81,9 @@ __decorate([
 ], MessagesGateway.prototype, "saveSocket", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('getAllSocketUser'),
+    __param(0, (0, websockets_1.MessageBody)('userName')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], MessagesGateway.prototype, "getAllSocketUser", null);
 MessagesGateway = __decorate([

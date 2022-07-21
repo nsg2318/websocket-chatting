@@ -9,7 +9,6 @@ export class RoomsController {
 
     @Post()
     async joinRoom(@Body('createRoomDto') createRoomDto: CreateRoomDto){
-        console.log(createRoomDto);
         return await this.roomsService.save(createRoomDto);
     }
 }

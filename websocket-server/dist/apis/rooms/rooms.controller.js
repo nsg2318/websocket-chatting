@@ -21,7 +21,6 @@ let RoomsController = class RoomsController {
         this.roomsService = roomsService;
     }
     async joinRoom(createRoomDto) {
-        console.log(createRoomDto);
         return await this.roomsService.save(createRoomDto);
     }
 };

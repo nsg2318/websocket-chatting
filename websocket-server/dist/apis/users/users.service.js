@@ -29,10 +29,9 @@ let UsersService = class UsersService {
     async saveSocketId(userId, socketId) {
         await this.usersRepository.updateSocketIdByUserId(userId, socketId);
     }
-    async findUserBySocketId(sockets) {
+    async findUserBySocketId(userName, sockets) {
         const socketsArr = Array.from(sockets);
         let userArr = [];
-        console.log(socketsArr[0]);
         for (let i = 0; i < socketsArr.length; i++) {
             const socket = socketsArr[i];
             const user = await this.usersRepository.findBySocketId(socket);
@@ -40,6 +39,8 @@ let UsersService = class UsersService {
                 userArr.push(user);
             }
         }
+        const hostIndex = userArr.findIndex(obj => obj.name == userName);
+        userArr.splice(hostIndex, 1);
         return userArr;
     }
     async findSocketIdByUserId(userId) {

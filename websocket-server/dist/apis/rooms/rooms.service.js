@@ -21,7 +21,7 @@ let RoomsService = class RoomsService {
         this.roomsUsersRepository = roomsUsersRepository;
     }
     async save(createRoomDto) {
-        const { roomName, hostName } = createRoomDto;
+        const { roomName, hostName, participants } = createRoomDto;
         if (!roomName) {
             throw new common_1.UnauthorizedException('방이름을 입력해주세요.');
         }
@@ -32,6 +32,10 @@ let RoomsService = class RoomsService {
         const createdRoom = await this.roomsRepository.save(roomName, hostName);
         const user = await this.usersRepository.findByName(hostName);
         await this.roomsUsersRepository.save(user, createdRoom);
+        for (const participant of participants) {
+            const user = await this.usersRepository.findByName(participant);
+            await this.roomsUsersRepository.save(user, createdRoom);
+        }
         return createdRoom;
     }
 };

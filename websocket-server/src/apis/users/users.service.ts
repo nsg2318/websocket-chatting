@@ -1,6 +1,4 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { async } from "rxjs";
-import { UpdateResult } from "typeorm";
 import { User } from "./entities/user.entity";
 import { UsersRepository } from "./users.repository";
 
@@ -26,18 +24,19 @@ export class UsersService {
     await this.usersRepository.updateSocketIdByUserId(userId,socketId);
   }
 
-  async findUserBySocketId(sockets: Set<string>) {
+  async findUserBySocketId(userName: string, sockets: Set<string>) {
     const socketsArr = Array.from(sockets);
     let userArr: User[] = [];
-    console.log(socketsArr[0]);
     for(let i = 0; i < socketsArr.length; i++){
       const socket = socketsArr[i];
       const user: User = await this.usersRepository.findBySocketId(socket);
       if(user){
         userArr.push(user);
       }
- 
     }
+    
+    const hostIndex = userArr.findIndex( obj => obj.name == userName );
+    userArr.splice(hostIndex,1);
     return userArr;
   }
 
