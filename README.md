@@ -1,5 +1,6 @@
 # websocket-chatting
 ### 목표1 : 여러개 Rooms에서 각 User끼리 채팅이 가능한 애플리케이션 구현 (socket.io사용)
+### nestJS 활용 목적으로 Vue.js 프레임워크는 깊게 고민하지 않는다.
 ### 2022.07.15 목표 1 기능구현 완료
 
 ### 목표2 : room 생성과 동시에 emit 구현 (DB사용이 아닌, socket 통신으로)
